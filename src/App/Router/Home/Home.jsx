@@ -1,14 +1,15 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'common/i18n'
+import { Grid, Typography } from '@mui/material'
 
 const Home = () => {
 
   const { t } = useTranslation()
 
   return (
-    <div>
-      {t('Welcome to React template')}
-    </div>
+    <Grid maxWidth='sm'>
+      <Typography variant='h3' align='center' paddingTop='30px' bgcolor='background.paper'>{t('Welcome to Post')}</Typography>
+    </Grid>
   )
 
 }

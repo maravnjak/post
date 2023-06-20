@@ -1,3 +1,8 @@
 {
-  "Welcome to React template": "Dobrodošli u React šablon"
+  "Welcome to Post": "Dobrodošli u Post",
+  "Users": "Korisnici",
+  "List of Users": "Lista korisnika",
+  "Name": "Ime",
+  "Username": "Korisničko ime",
+  "Back to Home Page": "Povratak na naslovnu stranu"
 }
