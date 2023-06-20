@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { createUseStyles } from 'react-jss'
-
+import Users from 'components/Users/Users'
 import Loading from 'components/Loading'
 import Header from 'components/Header'
 import PropTypes from 'prop-types'
@@ -23,7 +23,8 @@ const Router = ({ isLoading }) => {
       <div className={classes.content}>
         <Suspense fallback="Loading...">
           <Routes>
-            <Route key="home" path="/" element={<Home /> } />
+            <Route key="home" path="/" element={<Home />} />
+            <Route key="users" path='/users' element={<Users />} />
           </Routes>
         </Suspense>
       </div>
