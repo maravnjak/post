@@ -4,5 +4,16 @@
   "List of Users": "Lista korisnika",
   "Name": "Ime",
   "Username": "Korisničko ime",
-  "Back to Home Page": "Povratak na naslovnu stranu"
+  "Back to Home Page": "Povratak na naslovnu stranu",
+  "Website": "Veb stranica",
+  "phone": "telefon",
+  "Posts": "Postovi",
+  "Albums": "Albumi",
+  "Todos": "Obaveze",
+  "POSTS": "POSTOVI",
+  "Back to List of Users": "Povratak na Listu korisnika",
+  "Title": "Naslov",
+  "Body": "Sadržaj",
+  "Albums Title": "Naslov Albuma",
+  "Todos Title": " Naslov Obaveza"
 }

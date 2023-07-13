@@ -7,11 +7,7 @@ const Header = () => {
   const { t } = useTranslation()
 
   return (
-    <AppBar position='absolute' color='grey'>
-      <Toolbar variant='dense' >
-        <Button component={Link} to='/users' style={{ color: 'grey', fontSize: '17px' }}>{t('Users')}</Button>
-      </Toolbar>
-    </AppBar>
+    <div></div>
   )
 }
 
