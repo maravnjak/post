@@ -7,3 +7,10 @@ export const languageAtom = atom({
   default: 'en',
   effects_UNSTABLE: [persistAtom],
 })
+
+export const nameAtom = atom({
+  key: 'user.name',
+  default: null,
+  effects_UNSTABLE: [persistAtom],
+})
+

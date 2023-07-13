@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Button, Grid, ListItem, ListItemText, Typography, } from '@mui/material'
+import { Button, Container, ListItem,Stack,Typography, } from '@mui/material'
 import { useTranslation } from 'common/i18n'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle'
+import { MailTwoTone } from '@mui/icons-material'
 
 export default function Users() {
+  const { id } = useParams()
+  console.log('users-id= ', id)
 
   const { t } = useTranslation()
   const [users, setUsers] = useState([])
@@ -21,49 +25,62 @@ export default function Users() {
         console.log('reject', err)
       })
   }, [])
+  console.log('users = ', users)
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-        <Grid>
-          <Typography variant='h3' align='center' gutterBottom>{t('List of Users')}</Typography>
-          <Grid sx={{ display: 'grid', gridTemplateRows: 'repeat(5,auto)',gridTemplateColumns: 'repeat(4, auto)' }} padding='40px'>
+      <Container sx={{ maxWidth: 'md', maxHeight: '80%', typography: 'body2' }}>
 
-            {users.map((user) => <>
+        <Typography variant='h4' mb={4} textAlign='center'>{t('List of Users')}</Typography>
 
-              <ListItem alignItems='flex-start' >
+        <Stack direction='row' useFlexGap flexWrap='wrap' spacing={3}>
+
+          {users.map((user) =>
+            <Typography key={user.id}>
+
+              <><ListItem >
                 <PersonPinCircleIcon fontSize='small' />
                 {t('Name')}
               </ListItem>
-              <ListItemText
-                style={{ color: 'black', fontSize: '17px' }}
-                key={user.id}
-                primary={user.name}
-                secondary={<>
-                  <Typography
-                    sx={{ display: 'inline', colors: 'black' }}
-                    component='span'
-                    variant='body2'
-                    color='text.primary'
-                  >
-                    <Typography marginTop='10px'>{t('Username')}</Typography>
-                    {user.username}
+              <Button
+                LinkComponent={Link}
+                style={{ color: 'black', fontSize: '17px', justify: 'center' }}
+                to={{ pathname: `/detail/${user.id}` }}>
+                {user.name}
+              </Button>
 
-                    <Typography marginTop='10px' marginBottom='60px'>
-                                email:<br />
-                      {user.email}
-                    </Typography>
-                  </Typography>
-                </>} />
+              <Typography
+                sx={{ display: 'inline', colors: 'black', fontSize: '15px' }}
+                component='span'
+                variant='body2'
+                color='text.primary'>
 
-            </>)}
-          </Grid>
+                <Typography fontStyle='oblique' color='text.disabled' >
+                  {t('Username')}
+                </Typography>
 
-          <Button component={Link} to='/' style={{ color: 'black', fontSize: '17px', padding: '30px' }} fullWidth>{t('Back to Home Page')}</Button>
-        </Grid>
-      </Box >
+                <Typography gutterBottom fontWeight= 'medium'>{user.username}</Typography>
+
+                <Typography marginTop='10px' marginBottom='60px' marginRight='20px'>
+
+                  <MailTwoTone/> email:<br />
+                  {user.email}
+                </Typography>
+
+              </Typography></>
+            </Typography>
+          )}
+
+          <Button LinkComponent={Link}
+            to='/'
+            style={{ color: 'black', fontSize: '17px',marginTop: '2px' }} fullWidth>
+            {t('Back to Home Page')}
+          </Button>
+        </Stack>
+      </Container>
     </>
   )
-
 }
-
+Users.propTypes = {
+  id: PropTypes.number.isRequired
+}
