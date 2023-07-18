@@ -31,7 +31,7 @@ export default function Users() {
     <>
       <Container sx={{ maxWidth: 'md', maxHeight: '80%', typography: 'body2' }}>
 
-        <Typography variant='h4' mb={4} textAlign='center'>{t('List of Users')}</Typography>
+        <Typography variant='h4' mb={4} align='center'>{t('List of Users')}</Typography>
 
         <Stack direction='row' useFlexGap flexWrap='wrap' spacing={3}>
 
@@ -45,7 +45,7 @@ export default function Users() {
               <Button
                 LinkComponent={Link}
                 style={{ color: 'black', fontSize: '17px', justify: 'center' }}
-                to={{ pathname: `/detail/${user.id}` }}>
+                to={{ pathname: `/users/${user.id}` }}>
                 {user.name}
               </Button>
 
@@ -61,7 +61,7 @@ export default function Users() {
 
                 <Typography gutterBottom fontWeight= 'medium'>{user.username}</Typography>
 
-                <Typography marginTop='10px' marginBottom='60px' marginRight='20px'>
+                <Typography marginTop='10px' marginBottom='20px' marginRight='20px'>
 
                   <MailTwoTone/> email:<br />
                   {user.email}

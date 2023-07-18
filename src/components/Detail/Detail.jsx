@@ -8,25 +8,23 @@ import ContactsSharpIcon from '@mui/icons-material/ContactsSharp'
 import LanguageSharpIcon from '@mui/icons-material/LanguageSharp'
 import TabPanel from 'components/TabPanel/TabPanel'
 import allyProps from 'components/TabPanel/allyProps/allyProps'
-import { useRecoilState } from 'recoil'
-import { nameAtom } from 'store/atoms/shared.atom'
+// import { useRecoilState } from 'recoil'
+// import { nameAtom } from 'store/atoms/shared.atom'
 
 export default function Detail() {
   const { t } = useTranslation()
   console.log( ' ....DETAiL....')
-  const { id } = useParams()
-  console.log('detail id = ', id)
+  const { userId, id } = useParams()
 
-  console.log('id = ',id, '|' ,'user.id = ', id)
   const [user, setUser] = useState([])
   const [value, setValue] = useState(0)
-  const [userNameAtom, setUserNameAtom] = useRecoilState(nameAtom)
-  console.log('setUserNameAtom detil = ', userNameAtom)
+  // const [userNameAtom, setUserNameAtom] = useRecoilState(nameAtom)
+  const [setUserName] = useState()
   const userName = user.name
   console.log('setUserName detil = ', userName)
 
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+    fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
       .then((response) => {
         console.log('resolved', response)
         return response.json()
@@ -36,14 +34,14 @@ export default function Detail() {
       }).catch((err) => {
         console.log('reject', err)
       })
-  }, [id])
+  }, [userId])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
-  const handleButton = () => {
-    setUserNameAtom(userName)
+  const handleButton = (event) => {
+    setUserName(event.target.value)
   }
   return (
     <><AppBar position='absolute' color='grey'>
@@ -111,17 +109,19 @@ export default function Detail() {
         <Button
           onClick={handleButton}
           LinkComponent={Link}
-          to={{ pathname: `/posts/${id}` }}>
+          to={{ pathname: 'posts', search: `?username=${userName}` }}
+
+        >
           {t('Posts')}
         </Button>
 
         <Button LinkComponent={Link}
-          to={{ pathname: `/albums/${id}` }}>
+          to={{ pathname: 'albums', search: `?username=${userName}` }}>
           {t('Albums')}
         </Button>
 
         <Button LinkComponent={Link}
-          to={{ pathname: `/todos/${id}` }}>
+          to={{ pathname: 'todos', search: `?username=${userName}` }}>
           {t('Todos')}
         </Button>
 
@@ -132,3 +132,4 @@ export default function Detail() {
 Detail.propTypes = {
   id: PropTypes.number.isRequired
 }
+
