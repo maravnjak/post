@@ -33,7 +33,8 @@ const Router = ({ isLoading }) => {
             <Route key='detail' path={'/users/:userId'} element={<Detail />} />
             <Route key='posts' path={'/users/:userId/posts'} element={<Posts />} />
             <Route key='post-page' path={'/users/:userId/posts/:postId'} element={<PostPage/>} />
-            <Route key='albums' path={'/albums/:userId'} element={<Albums />} />
+            <Route key='albums' path={'/users/:userId/albums'} element={<Albums />} />
+
             <Route key='todos' path={'/todos/:userId'} element={<Todos />}/>
           </Routes>
         </Suspense>
