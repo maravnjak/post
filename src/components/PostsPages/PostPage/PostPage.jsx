@@ -11,24 +11,26 @@ const PostPage = () => {
   const { t } = useTranslation()
   console.log('...POSTS...')
 
-  const [posts, setPosts] = useState([])
-  const { userId, userName } = useParams()
+  const [post,setPost] = useState({})
+  const { userId, postId } = useParams()
   //const userNameAtom = useRecoilValue(nameAtom)
   const query = useQuery()
   const username = query.get('username')
-
+  const postTitle = query.get('postTitle')
+  const postBody = query.get('postBody')
+  const searchPost = query.get('searchPost')
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${userId}`)
+    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then((response) => {
         console.log('resolved', response)
         return response.json()
       }).then(data => {
         console.log(data)
-        setPosts(data)
+        setPost(data)
       }).catch((err) => {
         console.log('reject', err)
       })
-  }, [userId])
+  }, [postId])
 
   return (
     <><AppBar position='absolute' color='grey'>
@@ -67,9 +69,9 @@ const PostPage = () => {
             <Typography align='center'>
 
               {userId &&
-                            <><Typography variant='h4' align='center' m={12} fontStyle='italic'>{posts.title}</Typography>
-                              <Typography variant='body1'>{posts.body}</Typography>
-                            </>}
+                                  <><Typography variant='h4' align='center' m={12} fontStyle='italic'>{post.title }</Typography>
+                                    <Typography variant='body1'>{post.body}</Typography>
+                                  </>}
             </Typography>
           </Grid>
         </Grid>

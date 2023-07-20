@@ -5,29 +5,38 @@ import { useTranslation } from 'common/i18n'
 // import { useRecoilValue } from 'recoil'
 // import { nameAtom } from 'store/atoms/shared.atom'
 import useQuery from 'components/useQuery/useQuery'
+import PropTypes from 'prop-types'
 
-import Album from '../Album/Album'
-
-export default function Albums() {
-  const [albums, setAlbums] = useState([])
-
+export default function AlbumPage() {
   const { t } = useTranslation()
-  const { userId } = useParams()
+  const { userId, albumId } = useParams()
+  const [album,setAlbum] = useState([])
+  //const userNameAtom = useRecoilValue(nameAtom)
   const query = useQuery()
   const username = query.get('username')
-  const albumId = query.get('albumId')
+  const albumTitle = query.get('albumTitle')
 
-  //const userNameAtom = useRecoilValue(nameAtom)
-
+  //   useEffect(() => {
+  //     fetch(`https://jsonplaceholder.typicode.com/albums/?${albumId}`)
+  //       .then((response) => {
+  //         //console.log('resolved', response)
+  //         return response.json()
+  //       }).then(data => {
+  //         //console.log(data)
+  //         setAlbum(data)
+  //       }).catch((err) => {
+  //         console.log('reject', err)
+  //       })
+  //   }, [albumId])
   const getApiData = async () => {
-    let response = await fetch(`https://jsonplaceholder.typicode.com/albums?userId=${userId}`)
+    let response = await fetch(`https://jsonplaceholder.typicode.com/albums/${albumId}`)
     response = await response.json()
     console.log(response)
-    setAlbums(response)
+    setAlbum(response)
   }
   useEffect(() => {
     getApiData()
-  }, [userId])
+  }, [albumId])
 
   return (
     <><AppBar position='absolute' color='grey'>
@@ -42,6 +51,11 @@ export default function Albums() {
           <Typography align='right' color='#bdbdbd'>
             <ButtonGroup variant='text' color='inherit' mr='10px'>
               <Button LinkComponent={Link}
+                to={{ pathname: `/users/${userId}/albums`, search: `?username=${username}` }}
+                variant='text' color='inherit' font>
+                {t('Show All Albums')}
+              </Button>
+              <Button LinkComponent={Link}
                 to={{ pathname: `/users/${userId}/posts`, search: `?username=${username}` }}>
                 {t('Posts')}
               </Button>
@@ -53,23 +67,18 @@ export default function Albums() {
             </ButtonGroup>
           </Typography>
 
-          <Typography sx={{ fontSize: 20 }} color='text.secondary'>
-            {t('Albums')} {username}
+          <Typography sx={{ fontSize: 20 }} color='text.secondary' mt={5} gutterBottom>
+            {t('Albums')}<br/>{username}
           </Typography>
-          <Typography variant='h6'align='center'>
-            {albums.map((album) => (
-              <><Album key={albumId} {...album} />
-
-              </>
-            ))}
-
+          <Typography variant='h5' component='div' align='center' mt={7}>
+            {albumTitle}
           </Typography>
         </CardContent>
         <CardActions>
           <Button size='small'
             LinkComponent={Link}
             to='/users'
-            style={{ color: 'black',align: 'center' }}
+            style={{ color: 'black', marginTop: '150px', align: 'center' }}
             fullWidth>
             {t('Back to List of Users')}
           </Button>
@@ -79,4 +88,8 @@ export default function Albums() {
     </Container></>
 
   )
+}
+
+AlbumPage.propTypes = {
+  albumTitle: PropTypes.string.isRequired
 }
