@@ -4,7 +4,9 @@ import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
 // import { useRecoilValue } from 'recoil'
 // import { nameAtom } from 'store/atoms/shared.atom'
-import useQuery from 'components/useQuery/useQuery'
+// import useQuery from 'components/useQuery/useQuery'
+
+import UserUsername from 'components/UserUsername/UserUsername'
 
 import Album from '../Album/Album'
 
@@ -12,10 +14,10 @@ export default function Albums() {
   const [albums, setAlbums] = useState([])
 
   const { t } = useTranslation()
-  const { userId } = useParams()
-  const query = useQuery()
-  const username = query.get('username')
-  const albumId = query.get('albumId')
+  const { userId, albumId } = useParams()
+  //   const query = useQuery()
+  //   const username = query.get('username')
+  //   const albumId = query.get('albumId')
 
   //const userNameAtom = useRecoilValue(nameAtom)
 
@@ -42,7 +44,10 @@ export default function Albums() {
           <Typography align='right' color='#bdbdbd'>
             <ButtonGroup variant='text' color='inherit' mr='10px'>
               <Button LinkComponent={Link}
-                to={{ pathname: `/users/${userId}/posts`, search: `?username=${username}` }}>
+                to={{
+                  pathname: `/users/${userId}/posts`
+                  //   , search: `?username=${username}`
+                }}>
                 {t('Posts')}
               </Button>
 
@@ -54,7 +59,7 @@ export default function Albums() {
           </Typography>
 
           <Typography sx={{ fontSize: 20 }} color='text.secondary'>
-            {t('Albums')} {username}
+            {t('Albums')} <UserUsername userId={userId} />
           </Typography>
           <Typography variant='h6'align='center'>
             {albums.map((album) => (

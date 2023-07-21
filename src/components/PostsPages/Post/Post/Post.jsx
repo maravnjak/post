@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Typography } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
-import useQuery from 'components/useQuery/useQuery'
+//import useQuery from 'components/useQuery/useQuery'
 import { useTranslation } from 'common/i18n'
 
 const Post = (post) => {
@@ -9,10 +9,9 @@ const Post = (post) => {
 
   const postId = post.id
   const postTitle = post.title
-  const postBody = post.body
   const { userId } = useParams()
-  const query = useQuery()
-  const username = query.get('username')
+  //const query = useQuery()
+  //const username = query.get('username')
 
   return (
     <>
@@ -20,7 +19,10 @@ const Post = (post) => {
         <Button
           LinkComponent={Link}
           style={{ color: 'black', fontSize: '20px', justify: 'center' }}
-          to={{ pathname: `/users/${userId}/posts/${postId}`, search: `?username=${username}&postTitle=${postTitle}&postBody=${postBody}` }}>
+          to={{
+            pathname: `/users/${userId}/posts/${postId}`
+          // search: `?username=${username}&postTitle=${postTitle}&postBody=${postBody}`
+          }}>
           {postTitle}
         </Button></Typography></>
   )

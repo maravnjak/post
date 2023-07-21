@@ -4,21 +4,19 @@ import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
 // import { useRecoilValue } from 'recoil'
 // import { nameAtom } from 'store/atoms/shared.atom'
-import PropTypes from 'prop-types'
-import useQuery from 'components/useQuery/useQuery'
+//import useQuery from 'components/useQuery/useQuery'
+
+import UserUsername from 'components/UserUsername/UserUsername'
 
 const PostPage = () => {
   const { t } = useTranslation()
   console.log('...POSTS...')
 
   const [post,setPost] = useState({})
-  const { userId, postId } = useParams()
+  const { postId, userId } = useParams()
   //const userNameAtom = useRecoilValue(nameAtom)
-  const query = useQuery()
-  const username = query.get('username')
-  const postTitle = query.get('postTitle')
-  const postBody = query.get('postBody')
-  const searchPost = query.get('searchPost')
+  //   const query = useQuery()
+  //   const username = query.get('username')
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then((response) => {
@@ -44,7 +42,10 @@ const PostPage = () => {
         <Typography align='right' color='#bdbdbd'>
           <ButtonGroup variant='text' color='inherit' aria-label='medium secondary button group' mr='10px'>
             <Button LinkComponent={Link}
-              to={{ pathname: `/users/${userId}/albums`, search: `?username=${username}` }}>
+              to={{
+                pathname: `/users/${userId}/albums`
+              //search: `?username=${username}`
+              }}>
               {t('Albums')}
             </Button>
 
@@ -56,11 +57,14 @@ const PostPage = () => {
         </Typography>
 
         <Typography variant='h4' color='#bdbdbd' sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'center' }}>
-          {username}
+          <UserUsername userId={userId} />
         </Typography>
 
         <Button LinkComponent={Link}
-          to={{ pathname: `/users/${userId}/posts`, search: `?username=${username}` }}
+          to={{
+            pathname: `/users/${userId}/posts`
+            //, search: `?username=${username}`
+          }}
           variant='text' color='inherit' font>
           {t('Show All Posts')}
         </Button>
@@ -87,10 +91,4 @@ const PostPage = () => {
 }
 
 export default PostPage
-PostPage.propTypes = {
-  userId: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired
 
-}
