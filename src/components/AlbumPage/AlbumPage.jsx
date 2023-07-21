@@ -4,17 +4,17 @@ import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
 // import { useRecoilValue } from 'recoil'
 // import { nameAtom } from 'store/atoms/shared.atom'
-import useQuery from 'components/useQuery/useQuery'
-import PropTypes from 'prop-types'
+//import useQuery from 'components/useQuery/useQuery'
+import UserUsername from 'components/UserUsername/UserUsername'
 
 export default function AlbumPage() {
   const { t } = useTranslation()
   const { userId, albumId } = useParams()
   const [album,setAlbum] = useState([])
   //const userNameAtom = useRecoilValue(nameAtom)
-  const query = useQuery()
-  const username = query.get('username')
-  const albumTitle = query.get('albumTitle')
+  //const query = useQuery()
+  //   const username = query.get('username')
+  //   const albumTitle = query.get('albumTitle')
 
   //   useEffect(() => {
   //     fetch(`https://jsonplaceholder.typicode.com/albums/?${albumId}`)
@@ -51,12 +51,17 @@ export default function AlbumPage() {
           <Typography align='right' color='#bdbdbd'>
             <ButtonGroup variant='text' color='inherit' mr='10px'>
               <Button LinkComponent={Link}
-                to={{ pathname: `/users/${userId}/albums`, search: `?username=${username}` }}
+                to={{
+                  pathname: `/users/${userId}/albums`
+                  //, search: `?username=${username}`
+                }}
                 variant='text' color='inherit' font>
                 {t('Show All Albums')}
               </Button>
               <Button LinkComponent={Link}
-                to={{ pathname: `/users/${userId}/posts`, search: `?username=${username}` }}>
+                to={{ pathname: `/users/${userId}/posts`
+                  //search: `?username=${username}`
+                }}>
                 {t('Posts')}
               </Button>
 
@@ -68,10 +73,11 @@ export default function AlbumPage() {
           </Typography>
 
           <Typography sx={{ fontSize: 20 }} color='text.secondary' mt={5} gutterBottom>
-            {t('Albums')}<br/>{username}
+            {t('Albums')}<br />
+            <UserUsername userId={userId}/>
           </Typography>
           <Typography variant='h5' component='div' align='center' mt={7}>
-            {albumTitle}
+            {album.title}
           </Typography>
         </CardContent>
         <CardActions>
@@ -88,8 +94,4 @@ export default function AlbumPage() {
     </Container></>
 
   )
-}
-
-AlbumPage.propTypes = {
-  albumTitle: PropTypes.string.isRequired
 }
