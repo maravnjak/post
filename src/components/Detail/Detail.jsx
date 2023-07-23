@@ -8,6 +8,7 @@ import ContactsSharpIcon from '@mui/icons-material/ContactsSharp'
 import LanguageSharpIcon from '@mui/icons-material/LanguageSharp'
 import TabPanel from 'components/TabPanel/TabPanel'
 import allyProps from 'components/TabPanel/allyProps/allyProps'
+import UserUsername from 'components/UserUsername/UserUsername'
 // import { useRecoilState } from 'recoil'
 // import { nameAtom } from 'store/atoms/shared.atom'
 
@@ -19,7 +20,6 @@ export default function Detail() {
   const [user, setUser] = useState([])
   const [value, setValue] = useState(0)
   // const [userNameAtom, setUserNameAtom] = useRecoilState(nameAtom)
-  const [setUserName] = useState()
   const userName = user.name
   console.log('setUserName detil = ', userName)
 
@@ -40,9 +40,6 @@ export default function Detail() {
     setValue(newValue)
   }
 
-  const handleButton = (event) => {
-    setUserName(event.target.value)
-  }
   return (
     <><AppBar position='absolute' color='grey'>
       <Toolbar variant='dense'>
@@ -107,21 +104,28 @@ export default function Detail() {
       <ButtonGroup color='inherit' aria-label='medium secondary button group'>
 
         <Button
-          onClick={handleButton}
           LinkComponent={Link}
-          to={{ pathname: 'posts', search: `?username=${userName}` }}
-
+          to={{
+            pathname: `/users/${userId}/posts`
+            //, search: `?username=${userName}`
+          }}
         >
           {t('Posts')}
         </Button>
 
         <Button LinkComponent={Link}
-          to={{ pathname: 'albums', search: `?username=${userName}` }}>
+          to={{
+            pathname: `/users/${userId}/albums`
+            //, search: `?username=${userName}`
+          }}>
           {t('Albums')}
         </Button>
 
         <Button LinkComponent={Link}
-          to={{ pathname: 'todos', search: `?username=${userName}` }}>
+          to={{
+            pathname: `/users/${userId}/todos`
+            //, search: `?username=${userName}`
+          }}>
           {t('Todos')}
         </Button>
 

@@ -50,7 +50,7 @@ const PostPage = () => {
             </Button>
 
             <Button LinkComponent={Link}
-              to={{ pathname: `/todos/${userId}` }}>
+              to={{ pathname: `/users/${userId}/todos` }}>
               {t('Todos')}
             </Button>
           </ButtonGroup>

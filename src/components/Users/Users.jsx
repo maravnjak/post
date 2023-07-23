@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Container, ListItem,Stack,Typography, } from '@mui/material'
 import { useTranslation } from 'common/i18n'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle'
 import { MailTwoTone } from '@mui/icons-material'
 
 export default function Users() {
-  const { id } = useParams()
-  console.log('users-id= ', id)
 
   const { t } = useTranslation()
   const [users, setUsers] = useState([])
