@@ -14,6 +14,8 @@ import Todos from 'components/TodosPages/Todos/Todos'
 
 import AlbumPage from 'components/AlbumPage/AlbumPage'
 
+import TodoPage from 'components/TodosPages/TodoPage/TodoPage'
+
 import styles from './Router.styles'
 
 const Home = React.lazy(() => import('./Home'))
@@ -37,7 +39,8 @@ const Router = ({ isLoading }) => {
             <Route key='post-page' path={'/users/:userId/posts/:postId'} element={<PostPage/>} />
             <Route key='albums' path={'/users/:userId/albums'} element={<Albums />} />
             <Route key='album-page' path={'/users/:userId/albums/:albumId'} element={<AlbumPage/>} />
-            <Route key='todos' path={'/todos/:userId'} element={<Todos />}/>
+            <Route key='todos' path={'/users/:userId/todos/'} element={<Todos />} />
+            <Route key='todo-page' path={'/users/:userId/todos/:todoId'} element={<TodoPage/>} />
           </Routes>
         </Suspense>
 

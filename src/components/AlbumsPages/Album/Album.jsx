@@ -18,7 +18,10 @@ const Album = (album) => {
           <Button
             LinkComponent={Link}
             style={{ color: 'black', fontSize: '15px', justify: 'center' }}
-            to={{ pathname: `/users/${userId}/albums/${albumId}`, search: `?albumTitle=${albumTitle}` }}>
+            to={{
+              pathname: `/users/${userId}/albums/${albumId}`
+              //   , search: `?albumTitle=${albumTitle}`
+            }}>
             {albumTitle}
           </Button></Typography>
 

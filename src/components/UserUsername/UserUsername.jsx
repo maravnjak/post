@@ -24,9 +24,9 @@ function UserUsername({ userId }) {
 
 }
 
+export default UserUsername
+
 UserUsername.propTypes = {
   userId: PropTypes.number.isRequired
 }
-
-export default UserUsername
 
