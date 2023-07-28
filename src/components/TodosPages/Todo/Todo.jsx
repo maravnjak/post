@@ -18,11 +18,15 @@ const Todo = (todo) => {
       <Typography mr={18} mb={2} color='#bdbdbd'>{todoId}
         <Button
           LinkComponent={Link}
-          style={{ color: 'black', fontSize: '20px', justify: 'center' }}
+          size='large'
+          color='inherit'
           to={{
-            pathname: `/users/${userId}/todos/${todoId}` }}>
-          {todoTitle}
-        </Button></Typography></>
+            pathname: `/users/${userId}/todos/${todoId}`
+          }}>
+          {t('Todo Title')}:
+          <Typography variant='h6' color='text.primary' ml={2} >{todoTitle}</Typography>
+        </Button>
+      </Typography></>
   )
 
 }

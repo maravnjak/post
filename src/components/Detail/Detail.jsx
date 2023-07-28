@@ -8,7 +8,6 @@ import ContactsSharpIcon from '@mui/icons-material/ContactsSharp'
 import LanguageSharpIcon from '@mui/icons-material/LanguageSharp'
 import TabPanel from 'components/TabPanel/TabPanel'
 import allyProps from 'components/TabPanel/allyProps/allyProps'
-import UserUsername from 'components/UserUsername/UserUsername'
 // import { useRecoilState } from 'recoil'
 // import { nameAtom } from 'store/atoms/shared.atom'
 
@@ -41,9 +40,9 @@ export default function Detail() {
   }
 
   return (
-    <><AppBar position='absolute' color='grey'>
-      <Toolbar variant='dense'>
-        <Button component={Link} to='/users' style={{ color: 'grey', fontSize: '17px' }}>{t('Users')}</Button>
+    <><AppBar color='grey'>
+      <Toolbar variant='prominent'>
+        <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
       </Toolbar>
     </AppBar><>
 

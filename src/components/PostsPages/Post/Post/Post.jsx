@@ -18,13 +18,15 @@ const Post = (post) => {
       <Typography mr={18} mb={2} color='#bdbdbd'>{postId}
         <Button
           LinkComponent={Link}
-          style={{ color: 'black', fontSize: '20px', justify: 'center' }}
+          size='large'
+          color='inherit'
           to={{
             pathname: `/users/${userId}/posts/${postId}`
           // search: `?username=${username}&postTitle=${postTitle}&postBody=${postBody}`
           }}>
           {postTitle}
-        </Button></Typography></>
+        </Button>
+      </Typography></>
   )
 
 }

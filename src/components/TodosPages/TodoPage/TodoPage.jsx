@@ -29,9 +29,9 @@ export default function TodoPage() {
     getApiData()
   }, [todoId])
   return (
-    <><AppBar position='absolute' color='grey'>
-      <Toolbar variant='dense'>
-        <Button component={Link} to='/users' style={{ color: 'grey', fontSize: '17px' }}>{t('Users')}</Button>
+    <><AppBar color='grey'>
+      <Toolbar variant='prominent'>
+        <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
       </Toolbar>
     </AppBar>
 
@@ -73,26 +73,22 @@ export default function TodoPage() {
         pathname: `/users/${userId}/todos`
         //, search: `?username=${username}`
       }}
-      variant='text' color='inherit' font>
+      variant='text'
+      color='inherit'>
       {t('Show All Todos')}
     </Button>
     {/* <Typography m={3}>//{userNameAtom}</Typography> */}
-    <Typography>
+    <Typography ml={20}>
       <UserUsername userId={userId} />
     </Typography>
   </AccordionSummary>
   <AccordionDetails>
 
-    <Typography variant='h6' >
-      {todo.title}
+    <Typography variant='paragraph' color='inherit' ml={50} gutterBottom>{t('Todo Title')}</Typography>
+    <Typography variant='h6' align='center' >{todo.title}
     </Typography>
   </AccordionDetails>
 </Accordion></>}
-      <Button LinkComponent={Link}
-        to='/users'
-        style={{ color: 'ActiveBorder', fontSize: '17px', align: 'center', padding: '30px' }} fullWidth>
-        {t('Back to List of Users')}
-      </Button>
     </Grid></>
   )
 }
