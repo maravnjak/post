@@ -30,15 +30,13 @@ export default function Todos() {
       })
   }, [userId])
   return (
-    <><AppBar position='absolute' color='grey'>
-      <Toolbar variant='dense'>
-        <Button component={Link} to='/users' style={{ color: 'grey', fontSize: '17px' }}>{t('Users')}</Button>
-      </Toolbar>
-    </AppBar>
+    <><AppBar color='grey'>
+      <Toolbar variant='prominent'>
 
-    <Grid>
-      <Typography align='right' color='#bdbdbd'>
         <ButtonGroup variant='text' color='inherit' mr='10px'>
+
+          <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
+
           <Button LinkComponent={Link}
             to={{ pathname: `/users/${userId}/posts` }}>
             {t('Posts')}
@@ -49,7 +47,11 @@ export default function Todos() {
             {t('Albums')}
           </Button>
         </ButtonGroup>
-      </Typography>
+
+      </Toolbar>
+    </AppBar>
+
+    <Grid>
 
       {userId &&
                     <><Accordion
@@ -58,34 +60,31 @@ export default function Todos() {
                         boxShadow: 1,
                         borderRadius: 2,
                         p: 2,
-                        minWidth: 300,
+                        minWidth: 800,
                       }}>
 
                       <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
+
                         aria-controls="panel-content"
                         id="panel-header"
                       >
-                        <Typography variant='h6' color='#bdbdbd'>{t('Todos')}</Typography>
+                        <Grid spacing={3}>
+                          <Typography>
+                            <UserUsername userId={userId} />
+                          </Typography>
+                          <Typography variant='h6' color='#bdbdbd' mr={30}>{t('Todos')}<ExpandMoreIcon /></Typography>
+                        </Grid>
+
                         {/* <Typography m={3}>{userNameAtom}</Typography> */}
-                        <Typography>
-                          <UserUsername userId={userId} />
-                        </Typography>
+
                       </AccordionSummary>
                       <AccordionDetails>
                         {todos.map((todo)=>
-                          (<><Todo key={todoId} {...todo} /><Typography variant='h5' align='center'>
-                          </Typography></>
+                          (<><Todo key={todoId} {...todo} /></>
                           ) )}
                       </AccordionDetails>
 
                     </Accordion></>}
-
-      <Button LinkComponent={Link}
-        to='/users'
-        style={{ color: 'ActiveBorder', fontSize: '17px', align: 'center', padding: '30px' }} fullWidth>
-        {t('Back to List of Users')}
-      </Button>
     </Grid></>
   )
 }

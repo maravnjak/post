@@ -1,5 +1,6 @@
 {
-  "Welcome to Post": "Dobrodošli u Post",
+  "Welcome": "Dobrodošli",
+  "to":"na",
   "Users": "Korisnici",
   "List of Users": "Lista korisnika",
   "Name": "Ime",
@@ -14,8 +15,10 @@
   "Back to List of Users": "Povratak na Listu korisnika",
   "Title": "Naslov",
   "Body": "Sadržaj",
-  "Albums Title": "Naslov Albuma",
-  "Todos Title": " Naslov Obaveza",
-  "Post Title": "Naslov Posta",
+  "Album Title": "Naslov albuma",
+  "Todo Title": " Naslov obaveza",
+  "Post Title": "Naslov posta",
+  "Show All Posts": "Prikaži sve postove",
+  "Show All Albums": "Prikaži sve albume",
   "Show All Todos": "Prikaži sve obaveze"
 }

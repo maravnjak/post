@@ -12,7 +12,7 @@ import Albums from 'components/AlbumsPages/Albums/Albums'
 
 import Todos from 'components/TodosPages/Todos/Todos'
 
-import AlbumPage from 'components/AlbumPage/AlbumPage'
+import AlbumPage from 'components/AlbumsPages/AlbumPage/AlbumPage'
 
 import TodoPage from 'components/TodosPages/TodoPage/TodoPage'
 

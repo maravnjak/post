@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { AppBar, Button,ButtonGroup, Card, CardActions, CardContent, Container, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button,ButtonGroup, Container, List, ListItem, ListItemText, Toolbar, Typography } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
 // import { useRecoilValue } from 'recoil'
@@ -32,56 +32,37 @@ export default function Albums() {
   }, [userId])
 
   return (
-    <><AppBar position='absolute' color='grey'>
-      <Toolbar variant='dense'>
-        <Button component={Link} to='/users' style={{ color: 'grey', fontSize: '17px' }}>{t('Users')}</Button>
+    <><AppBar color='grey'>
+      <Toolbar variant='prominent'>
+        <ButtonGroup variant='text' color='inherit'>
+          <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
+          <Button LinkComponent={Link}
+            to={{
+              pathname: `/users/${userId}/posts`
+            //   , search: `?username=${username}`
+            }}>
+            {t('Posts')}
+          </Button>
+
+          <Button LinkComponent={Link}
+            to={{ pathname: `/users/${userId}/todos` }}>
+            {t('Todos')}
+          </Button>
+        </ButtonGroup>
       </Toolbar>
     </AppBar>
 
-    <Container maxWidth='sm'>
-      <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-          <Typography align='right' color='#bdbdbd'>
-            <ButtonGroup variant='text' color='inherit' mr='10px'>
-              <Button LinkComponent={Link}
-                to={{
-                  pathname: `/users/${userId}/posts`
-                  //   , search: `?username=${username}`
-                }}>
-                {t('Posts')}
-              </Button>
+    <List>
+      <Typography variant='h6' color='text.secondary'>
+        {t('Albums')}
+        <Typography ml={10}><UserUsername userId={userId} /></Typography>
+      </Typography>
+      <ListItemText>
+        {albums.map((album) => (
+          <Album key={albumId} {...album} />
 
-              <Button LinkComponent={Link}
-                to={{ pathname: `/users/${userId}/todos` }}>
-                {t('Todos')}
-              </Button>
-            </ButtonGroup>
-          </Typography>
-
-          <Typography sx={{ fontSize: 20 }} color='text.secondary'>
-            {t('Albums')} <UserUsername userId={userId} />
-          </Typography>
-          <Typography variant='h6'align='center'>
-            {albums.map((album) => (
-              <><Album key={albumId} {...album} />
-
-              </>
-            ))}
-
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size='small'
-            LinkComponent={Link}
-            to='/users'
-            style={{ color: 'black',align: 'center' }}
-            fullWidth>
-            {t('Back to List of Users')}
-          </Button>
-        </CardActions>
-      </Card>
-
-    </Container></>
-
+        ))}
+      </ListItemText>
+    </List></>
   )
 }

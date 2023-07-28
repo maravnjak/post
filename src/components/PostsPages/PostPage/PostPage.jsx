@@ -31,62 +31,55 @@ const PostPage = () => {
   }, [postId])
 
   return (
-    <><AppBar position='absolute' color='grey'>
-      <Toolbar variant='dense'>
-        <Button component={Link} to='/users' style={{ color: 'grey', fontSize: '17px' }}>{t('Users')}</Button>
+    <><AppBar color='grey'>
+      <Toolbar variant='prominent'>
+        <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
       </Toolbar>
-    </AppBar><>
+    </AppBar><Box sx={{ flexGrow: 1, maxWidth: 1000 }}>
 
-      <Box sx={{ flexGrow: 1, maxWidth: 1000 }}>
-
-        <Typography align='right' color='#bdbdbd'>
-          <ButtonGroup variant='text' color='inherit' aria-label='medium secondary button group' mr='10px'>
-            <Button LinkComponent={Link}
-              to={{
-                pathname: `/users/${userId}/albums`
+      <Typography align='right' color='#bdbdbd'>
+        <ButtonGroup variant='text' color='inherit' aria-label='medium secondary button group' mr='10px'>
+          <Button LinkComponent={Link}
+            to={{
+              pathname: `/users/${userId}/albums`
               //search: `?username=${username}`
-              }}>
-              {t('Albums')}
-            </Button>
+            }}>
+            {t('Albums')}
+          </Button>
 
-            <Button LinkComponent={Link}
-              to={{ pathname: `/users/${userId}/todos` }}>
-              {t('Todos')}
-            </Button>
-          </ButtonGroup>
-        </Typography>
+          <Button LinkComponent={Link}
+            to={{ pathname: `/users/${userId}/todos` }}>
+            {t('Todos')}
+          </Button>
+        </ButtonGroup>
+      </Typography>
 
-        <Typography variant='h4' color='#bdbdbd' sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'center' }}>
-          <UserUsername userId={userId} />
-        </Typography>
-
-        <Button LinkComponent={Link}
-          to={{
-            pathname: `/users/${userId}/posts`
-            //, search: `?username=${username}`
-          }}
-          variant='text' color='inherit' font>
-          {t('Show All Posts')}
-        </Button>
-        <Grid sx={{ display: 'grid', gridTemplateRows: 'repeat(2,auto)', gridTemplateColumns: 'repeat(3, auto)' }} padding='40px'>
-          <Grid>
-            <Typography align='center'>
-
-              {userId &&
-                                  <><Typography variant='h4' align='center' m={12} fontStyle='italic'>{post.title }</Typography>
-                                    <Typography variant='body1'>{post.body}</Typography>
-                                  </>}
-            </Typography>
-          </Grid>
-        </Grid>
-
-      </Box>
+      <Typography variant='h4' color='#bdbdbd' sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'center' }}>
+        <UserUsername userId={userId} />
+      </Typography>
 
       <Button LinkComponent={Link}
-        to='/users'
-        style={{ color: 'black', fontSize: '17px', marginTop: '150px', align: 'center' }} fullWidth>
-        {t('Back to List of Users')}
-      </Button></></>
+        to={{
+          pathname: `/users/${userId}/posts`
+          //, search: `?username=${username}`
+        }}
+        variant='text' color='inherit'>
+        {t('Show All Posts')}
+      </Button>
+      <Grid sx={{ display: 'grid', gridTemplateRows: 'repeat(2,auto)', gridTemplateColumns: 'repeat(3, auto)' }} padding='40px'>
+        <Grid>
+          <Typography align='center'>
+
+            {userId &&
+                              <><Typography variant='h4' align='center' m={12} fontStyle='italic'>{post.title}</Typography>
+                                <Typography variant='body1'>{post.body}</Typography>
+                              </>}
+          </Typography>
+        </Grid>
+      </Grid>
+
+    </Box></>
+
   )
 }
 
