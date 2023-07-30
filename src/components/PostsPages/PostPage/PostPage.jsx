@@ -51,21 +51,32 @@ const PostPage = () => {
             to={{ pathname: `/users/${userId}/todos` }}>
             {t('Todos')}
           </Button>
+
         </ButtonGroup>
       </Typography>
 
       <Typography variant='h4' color='#bdbdbd' sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'center' }}>
         <UserUsername userId={userId} />
       </Typography>
-
-      <Button LinkComponent={Link}
-        to={{
-          pathname: `/users/${userId}/posts`
-          //, search: `?username=${username}`
-        }}
-        variant='text' color='inherit'>
-        {t('Show All Posts')}
-      </Button>
+      <Grid container spacing={8}>
+        <Grid item xs={12}>
+          <Button LinkComponent={Link}
+            to={{
+              pathname: `/users/${userId}/posts`
+            //, search: `?username=${username}`
+            }}
+            variant='text' color='inherit'>
+            {t('Show All Posts')}
+          </Button>
+          <Grid ml={99} mt={-5} >
+            <Button LinkComponent={Link}
+              to={{ pathname: `/users/${userId}/posts/${postId}/comments` }}
+              variant='text' color='inherit' >
+              {t('Comments for This Post')}
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
       <Grid sx={{ display: 'grid', gridTemplateRows: 'repeat(2,auto)', gridTemplateColumns: 'repeat(3, auto)' }} padding='40px'>
         <Grid>
           <Typography align='center'>
