@@ -66,6 +66,11 @@ export default function AlbumPage() {
           to={{ pathname: `/users/${userId}/todos` }}>
           {t('Todos')}
         </Button>
+        <Button LinkComponent={Link}
+          to={{ pathname: `/users/${userId}/albums/${albumId}/photos` }}
+          variant='text' color='inherit' >
+          {t('Photo')}
+        </Button>
       </ButtonGroup>
     </Typography>
     <Typography>

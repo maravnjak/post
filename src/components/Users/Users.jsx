@@ -33,7 +33,7 @@ export default function Users() {
           color='inherit'>
           {t('Back to Home Page')}
         </Button>
-        <Typography variant='h4' component='div' ml={30}> {t('List of Users')}</Typography>
+        <Typography variant='h4' component='div' ml={70}> {t('List of Users')}</Typography>
       </Toolbar>
     </AppBar>
 
