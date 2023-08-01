@@ -20,7 +20,8 @@ function UserUsername({ userId }) {
 
   return (
 
-    <Typography variant='h4' gutterBottom key={userId}>{user?.name }</Typography>)
+    <Typography variant='h4' gutterBottom key={userId}>{user?.name}</Typography>
+  )
 
 }
 

@@ -18,6 +18,8 @@ import TodoPage from 'components/TodosPages/TodoPage/TodoPage'
 
 import Comments from 'components/PostsPages/Comments/Comments'
 
+import Photos from 'components/AlbumsPages/Photos/Photos'
+
 import styles from './Router.styles'
 
 const Home = React.lazy(() => import('./Home'))
@@ -43,7 +45,8 @@ const Router = ({ isLoading }) => {
             <Route key='album-page' path={'/users/:userId/albums/:albumId'} element={<AlbumPage/>} />
             <Route key='todos' path={'/users/:userId/todos/'} element={<Todos />} />
             <Route key='todo-page' path={'/users/:userId/todos/:todoId'} element={<TodoPage />} />
-            <Route key='comments' path={'/users/:userId/posts/:postId/comments'} element={<Comments/>} />
+            <Route key='comments' path={'/users/:userId/posts/:postId/comments'} element={<Comments />} />
+            <Route key='photos' path={'/users/:userId/albums/:albumId/photos'} element={<Photos />}/>
           </Routes>
         </Suspense>
 
