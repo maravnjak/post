@@ -51,8 +51,8 @@ export default function Comments() {
       <Grid container columns={{ xs: 2, md: 12 }}>
 
         {photos.map((photo) => (
-          <Grid item xs={2} sm={2} md={3} key={albumId}>
-            <Photo key={albumId} {...photo} />
+          <Grid item xs={2} sm={2} md={3} key={photo.id}>
+            <Photo key={photo.id} {...photo} />
           </Grid>
         ))}
 

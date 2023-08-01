@@ -1,4 +1,6 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
+
 import { IconButton, ImageList, ImageListItemBar, ImageListItem, Grid } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
 
@@ -10,12 +12,14 @@ const Photo = (photo) => {
 
   //const query = useQuery()
   //const username = query.get('username')
+  const { userId, albumId } = useParams()
+  const photoId = photo.id
   return (
     <Grid mr={-28}>
       <ImageList>
-        <ImageListItem key={photo.id}>
+        <ImageListItem key={photoId}>
           <img
-            src={`${photo.url}`}
+            src={`${photo.thumbnailUrl}`}
             alt={photo.title}
           />
           <ImageListItemBar
@@ -23,7 +27,8 @@ const Photo = (photo) => {
             actionIcon={
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${photo.title}`}>
+                aria-label={`info about ${photo.title}`}
+                href={`/users/${userId}/albums/${albumId}/photos/${photoId}`}>
                 <InfoIcon />
               </IconButton>
             }
