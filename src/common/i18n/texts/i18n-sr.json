@@ -26,5 +26,7 @@
   "Comment Name": "Naslov komentara",
   "Back to Posts": "Povratak na postove",
   "no":"br",
-  "Back to Photos" :"Povratak na fotografije"
+  "Back to Photos" :"Povratak na fotografije",
+  "User deleted successfully.":"Korisnik je uspešno obrisan.",
+  "UNDO": "PONIŠTITI"
 }
