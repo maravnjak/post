@@ -28,5 +28,11 @@
   "no":"br",
   "Back to Photos" :"Povratak na fotografije",
   "User deleted successfully.":"Korisnik je uspešno obrisan.",
-  "UNDO": "PONIŠTITI"
+  "UNDO": "PONIŠTITI",
+  "User added successfully":"Korisnik je uspešno dodat",
+  "Add name here...":  "Dodajte ime ovde...",
+  "Add email here...": "Dodajte ovde email ...",
+  "Add username here...": "Dodajte ovde korisničko ime...",
+  "ADD USER":"Dodati korisnika",
+  "Add User": "Dodati korisnika"
 }

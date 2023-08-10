@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AppBar, Button, Container, Grid,Toolbar,Typography, } from '@mui/material'
+import { AppBar, Button, Container, Grid,IconButton,Toolbar,Typography, } from '@mui/material'
 import { useTranslation } from 'common/i18n'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -7,6 +7,8 @@ import UserCard from 'components/UserCard/UserCard'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
 import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
 import { toast } from 'react-hot-toast'
+import AddUser from 'components/AddUser/AddUser'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 export default function Users() {
 
@@ -65,15 +67,27 @@ export default function Users() {
           color='inherit'>
           {t('Back to Home Page')}
         </Button>
-        <Typography variant='h4' component='div' ml={85}> {t('List of Users')}</Typography>
+        <Typography variant='h4' component='h4' mr={30}> {t('List of Users')}</Typography>
+        <Typography variant='body2' fontSize='12px'ml={100}>
+          {t('Add User')}
+          <IconButton
+            component={Link}
+            to='/add-user'
+            color='inherit'>
+            <PersonAddIcon />
+          </IconButton>
+        </Typography>
       </Toolbar>
-    </AppBar><Container>
+    </AppBar>
+    <Container>
       <Grid container spacing={3}>
+
         {users.map((user) => <Grid item key={user.id} xs={12} md={6} lg={4}>
 
-          <Typography position='absolute' ml={30}>
+          <Typography position='absolute' ml={30} align='center'>
 
             <DeleteBtn handleDelete={() => deleteUser(user.id)}>
+
               <ErrorDisplay onClick={handleOpen} onChange={handleSuccess } />
             </DeleteBtn>
           </Typography>
