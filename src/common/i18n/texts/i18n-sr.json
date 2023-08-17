@@ -34,5 +34,9 @@
   "Add email here...": "Dodajte ovde email ...",
   "Add username here...": "Dodajte ovde korisničko ime...",
   "ADD USER":"Dodati korisnika",
-  "Add User": "Dodati korisnika"
+  "Add User": "Dodati korisnika",
+  "User updated successfully.": "Korisnik je uspešno ažuriran",
+  "Update website": "Ažurirati web adresu",
+  "Update phone": "Ažurirati telefon",
+  "Update": "Ažuriranje" 
 }

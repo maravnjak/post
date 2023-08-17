@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { AppBar, Box, Button,ButtonGroup,Container, Grid,Tab, Tabs,Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button,ButtonGroup,Container, Grid,Tab, Tabs,TextField,Toolbar, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'common/i18n'
 import { Phone } from '@mui/icons-material'
@@ -8,15 +8,16 @@ import ContactsSharpIcon from '@mui/icons-material/ContactsSharp'
 import LanguageSharpIcon from '@mui/icons-material/LanguageSharp'
 import TabPanel from 'components/TabPanel/TabPanel'
 import allyProps from 'components/TabPanel/allyProps/allyProps'
+import { toast } from 'react-hot-toast'
+
 // import { useRecoilState } from 'recoil'
 // import { nameAtom } from 'store/atoms/shared.atom'
 
 export default function Detail() {
   const { t } = useTranslation()
   console.log( ' ....DETAiL....')
-  const { userId, id } = useParams()
-
-  const [user, setUser] = useState([])
+  const { userId } = useParams()
+  const [user, setUser] = useState({})
   const [value, setValue] = useState(0)
   // const [userNameAtom, setUserNameAtom] = useRecoilState(nameAtom)
   const userName = user.name
@@ -36,7 +37,31 @@ export default function Detail() {
   }, [userId])
 
   const handleChange = (event, newValue) => {
+    event.preventDefault()
     setValue(newValue)
+  }
+  const updateUser = ()=> {
+    //const user = users.find(user => user.id === id)
+    let { website, phone } = user
+    fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ website, phone }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then(response => response.json())
+      .then(() => {
+
+      })
+    toast.success(t('User updated successfully.'))
+
+  }
+
+  const onChangeHandler = (id,key, event) => {
+    setUser({ ...user, [key]: event.target.value })
+
   }
 
   return (
@@ -50,7 +75,7 @@ export default function Detail() {
 
         <Box sx={{ width: 600, height: 600, }}>
 
-          {(id || userName) && (<Grid>
+          <Grid>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -62,46 +87,65 @@ export default function Detail() {
               <Tab icon={<Phone />} label={t('phone')} {...allyProps(2)} />
 
             </Tabs>
+            <Grid container spacing={1}>
+              <TabPanel value={value} index={0}>
+                <Typography
+                  variant='h2'
+                  color='text.primary'>
+                  {userName}
+                </Typography>
+              </TabPanel>
 
-            <TabPanel value={value} index={0}>
-              <Typography
-                variant='h2'
-                color='text.primary'
-                display='flex' flexDirection={1} m='60px'>
-                {userName}
-              </Typography>
-            </TabPanel>
+              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} textAlign={'center'}>
+                <TabPanel value={value} index={1}>
+                  {/* <Typography
+                    fontStyle='oblique'
+                    color='text.disabled'
+                    fontSize='20px' display='flex'
+                    flexDirection={1} ml='220px'>
+                    {user.website}
+                  </Typography> */}
 
-            <TabPanel value={value} index={1}>
-              <Typography
-                fontStyle='oblique'
-                color='text.disabled'
-                fontSize='20px' display='flex'
-                flexDirection={1} ml='220px'>
-                {user.website}
-              </Typography>
-            </TabPanel>
+                  <Grid item xs={6} ml={25}>
+                    <TextField
+                      multiline
+                      placeholder={t('Update website')}
+                      value={user.website}
+                      onChange={event => onChangeHandler(userId, 'website', event)} />
 
-            <TabPanel value={value} index={2}>
-              <Typography
-                variant='body2'
-                color='grey'
-                fontSize='17px'
-                display='flex'
-                flexDirection={1}
-                ml='320px'>
-                {user.phone}
-              </Typography>
-            </TabPanel>
+                    <Button onClick={() => updateUser(userId)}>{t('Update')}</Button>
 
-          </Grid>)}
+                  </Grid>
+                </TabPanel>
+
+                <TabPanel value={value} index={2}>
+
+                  {/* <Typography
+                    variant='body2'
+                    color='grey'
+                    fontSize='17px'>
+                    {user.phone}
+                  </Typography> */}
+                  <Grid item ml={40}>
+                    <TextField
+                      multiline
+                      placeholder={t('Update phone')}
+                      value={user.phone}
+                      onChange={event => onChangeHandler(userId, 'phone', event)} />
+
+                    <Button onClick={() => updateUser(userId)}>{t('Update')}</Button>
+
+                  </Grid>
+                </TabPanel>
+              </Grid>
+            </Grid>
+          </Grid>
 
         </Box>
 
       </Container>
 
       <ButtonGroup color='inherit' aria-label='medium secondary button group'>
-
         <Button
           LinkComponent={Link}
           to={{
@@ -134,5 +178,5 @@ export default function Detail() {
 
 Detail.propTypes = {
   id: PropTypes.number.isRequired
-}
 
+}

@@ -7,7 +7,6 @@ import UserCard from 'components/UserCard/UserCard'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
 import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
 import { toast } from 'react-hot-toast'
-import AddUser from 'components/AddUser/AddUser'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 export default function Users() {
@@ -68,7 +67,7 @@ export default function Users() {
           {t('Back to Home Page')}
         </Button>
         <Typography variant='h4' component='h4' mr={30}> {t('List of Users')}</Typography>
-        <Typography variant='body2' fontSize='12px'ml={100}>
+        <Typography variant='body2' fontSize='12px' ml={100}>
           {t('Add User')}
           <IconButton
             component={Link}
@@ -88,7 +87,7 @@ export default function Users() {
 
             <DeleteBtn handleDelete={() => deleteUser(user.id)}>
 
-              <ErrorDisplay onClick={handleOpen} onChange={handleSuccess } />
+              <ErrorDisplay onClick={handleOpen} onChange={handleSuccess} />
             </DeleteBtn>
           </Typography>
 
