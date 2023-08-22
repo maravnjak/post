@@ -10,7 +10,8 @@ const DeleteBtn = ({ handleDelete })=> {
   return (
 
     <IconButton>
-      <DeleteIcon onClick={handleDelete} />
+      <DeleteIcon onClick={handleDelete}>
+      </DeleteIcon>
     </IconButton>
 
   )

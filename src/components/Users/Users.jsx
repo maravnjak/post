@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { AppBar, Button, Container, Grid,IconButton,Toolbar,Typography, } from '@mui/material'
+import { Alert, AppBar, Button, Container, Grid,IconButton,Toolbar,Typography,Snackbar } from '@mui/material'
 import { useTranslation } from 'common/i18n'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import UserCard from 'components/UserCard/UserCard'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
 import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
-import { toast } from 'react-hot-toast'
+//import { toast } from 'react-hot-toast'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 export default function Users() {
 
   const { t } = useTranslation()
   const [users, setUsers] = useState([])
+  const [open, setOpen] = useState(false)
   const [displayError, setDisplayError] = useState('')
-  const [show, setShow] = useState(true)
-
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((response) => {
@@ -29,7 +28,6 @@ export default function Users() {
       })
   }, [])
   console.log('users = ', users)
-  console.log('errordisplay ', displayError)
 
   const deleteUser = (id) => {
     fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
@@ -42,20 +40,23 @@ export default function Users() {
 
         })
 
-        toast.success(t('User deleted successfully.'))
-        //setDisplayError(t('User deleted successfully.'))
+        //toast.success(t('User deleted successfully.'))
+        setDisplayError(t('User deleted successfully.'))
       })
 
   }
-  const handleSuccess = (event) => {
-    event.target.value
-    setDisplayError(t('User deleted successfully.'))
-  }
-  const handleOpen = (user, id)=>{
-    if (user.id !== id) {
-      setShow(show)
 
+  console.log('errordisplay ', displayError)
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
     }
+
+    setOpen(false)
   }
   return (
     <><AppBar color='grey'>
@@ -66,34 +67,42 @@ export default function Users() {
           color='inherit'>
           {t('Back to Home Page')}
         </Button>
-        <Typography variant='h4' component='h4' mr={30}> {t('List of Users')}</Typography>
-        <Typography variant='body2' fontSize='12px' ml={100}>
-          {t('Add User')}
+        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} mr={-15}>
+
+          <Typography variant='h4'> {t('List of Users')}</Typography>
+        </Grid>
+        <Grid item xs={1}>
+
           <IconButton
             component={Link}
             to='/add-user'
             color='inherit'>
-            <PersonAddIcon />
+            <Typography variant='body2' noWrap>
+              {t('Add User')} <PersonAddIcon />
+            </Typography>
           </IconButton>
-        </Typography>
+
+        </Grid>
       </Toolbar>
-    </AppBar>
-    <Container>
+    </AppBar><Container>
       <Grid container spacing={3}>
 
         {users.map((user) => <Grid item key={user.id} xs={12} md={6} lg={4}>
 
           <Typography position='absolute' ml={30} align='center'>
+            <Button variant='text'onClick={handleOpen}>
+              <DeleteBtn handleDelete={() => deleteUser(user.id)}/>
+            </Button>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+              <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose }>
+                <ErrorDisplay displayError={displayError }/>
 
-            <DeleteBtn handleDelete={() => deleteUser(user.id)}>
+              </Alert>
+            </Snackbar>
 
-              <ErrorDisplay onClick={handleOpen} onChange={handleSuccess} />
-            </DeleteBtn>
           </Typography>
 
-          <UserCard user={user}>
-
-          </UserCard>
+          <UserCard user={user}/>
         </Grid>
 
         )}
