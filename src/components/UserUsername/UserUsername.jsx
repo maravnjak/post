@@ -28,6 +28,6 @@ function UserUsername({ userId }) {
 export default UserUsername
 
 UserUsername.propTypes = {
-  userId: PropTypes.number.isRequired
+  userId: PropTypes.string.isRequired
 }
 

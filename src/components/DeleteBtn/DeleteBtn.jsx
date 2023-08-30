@@ -9,8 +9,8 @@ const DeleteBtn = ({ handleDelete })=> {
 
   return (
 
-    <IconButton>
-      <DeleteIcon onClick={handleDelete}>
+    <IconButton onClick={handleDelete}>
+      <DeleteIcon>
       </DeleteIcon>
     </IconButton>
 
