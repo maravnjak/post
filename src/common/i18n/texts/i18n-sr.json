@@ -38,5 +38,9 @@
   "User updated successfully.": "Korisnik je uspešno ažuriran",
   "Update website": "Ažurirati web adresu",
   "Update phone": "Ažurirati telefon",
-  "Update": "Ažuriranje" 
+  "Update": "Ažuriranje",
+  "Post title":  "Naslov posta",
+  "is deleted successfully.":"je uspešno izbrisan.",
+  "Album title":  "Naslov albuma",
+  "Todo title":  "Naslov obaveza"
 }

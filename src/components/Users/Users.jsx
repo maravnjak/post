@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Alert, AppBar, Button, Container, Grid,IconButton,Toolbar,Typography,Snackbar } from '@mui/material'
+import { Alert, AppBar,Box, Button, Container, Grid,IconButton,Toolbar,Typography,Snackbar } from '@mui/material'
 import { useTranslation } from 'common/i18n'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -15,6 +15,7 @@ export default function Users() {
   const [users, setUsers] = useState([])
   const [open, setOpen] = useState(false)
   const [displayError, setDisplayError] = useState('')
+
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((response) => {
@@ -51,24 +52,26 @@ export default function Users() {
   const handleOpen = () => {
     setOpen(true)
   }
+
   const handleClose = (event, reason) => {
+    setDisplayError(null)
     if (reason === 'clickaway') {
       return
     }
-
     setOpen(false)
   }
+
   return (
     <><AppBar color='grey'>
       <Toolbar variant='prominent'>
         <Button
           component={Link}
           to='/'
-          color='inherit'>
+          color='inherit'
+          size='small'>
           {t('Back to Home Page')}
         </Button>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} mr={-15}>
-
           <Typography variant='h4'> {t('List of Users')}</Typography>
         </Grid>
         <Grid item xs={1}>
@@ -84,26 +87,25 @@ export default function Users() {
 
         </Grid>
       </Toolbar>
-    </AppBar><Container>
+    </AppBar>
+    <Container>
       <Grid container spacing={3}>
 
-        {users.map((user) => <Grid item key={user.id} xs={12} md={6} lg={4}>
+        {users.map((user) =>
+          <Grid item key={user.id} xs={12} md={6} lg={4}>
+            <Box position='absolute' ml={30} align='center'>
+              <Button variant='text'onClick={handleOpen}>
+                <DeleteBtn handleDelete={() => deleteUser(user.id)}/>
+              </Button>
+              <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose }>
+                  <ErrorDisplay displayError={displayError }/>
+                </Alert>
+              </Snackbar>
+            </Box>
 
-          <Typography position='absolute' ml={30} align='center'>
-            <Button variant='text'onClick={handleOpen}>
-              <DeleteBtn handleDelete={() => deleteUser(user.id)}/>
-            </Button>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-              <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose }>
-                <ErrorDisplay displayError={displayError }/>
-
-              </Alert>
-            </Snackbar>
-
-          </Typography>
-
-          <UserCard user={user}/>
-        </Grid>
+            <UserCard user={user}/>
+          </Grid>
 
         )}
       </Grid>

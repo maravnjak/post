@@ -1,9 +1,11 @@
 import React,{ useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { AppBar, Accordion, AccordionSummary, AccordionDetails, Button, ButtonGroup, Grid, Toolbar, Typography } from '@mui/material'
+import { Alert, AppBar, Accordion, AccordionSummary, AccordionDetails, Box, Button, ButtonGroup, Grid, Snackbar, Toolbar, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useTranslation } from 'common/i18n'
 import UserUsername from 'components/UserUsername/UserUsername'
+import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
+import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
 
 import Todo from '../Todo/Todo'
 // import { useRecoilValue } from 'recoil'
@@ -16,6 +18,8 @@ export default function Todos() {
   const [todos, setTodos] = useState([])
   console.log('TODOS = ', todos)
   const { userId, todoId } = useParams()
+  const [open, setOpen] = useState(false)
+  const [displayError, setDisplayError] = useState(null)
 
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/todos/?userId=${userId}`)
@@ -29,6 +33,31 @@ export default function Todos() {
         console.log('reject', err)
       })
   }, [userId])
+
+  const deleteTodo = (id) => {
+    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+      method: 'DELETE',
+    })
+      .then(response => response.json())
+      .then(() => {
+        setTodos(albums => {
+          return albums.filter(album => album.id !== id)
+        })
+
+        setDisplayError(t('Todo title ') + `${id} ` + (t(' is deleted successfully.')))
+      })
+  }
+  const handleOpen = (event) =>{
+    setOpen(true,event)
+  }
+  const handleClose = (event, reason) => {
+    setDisplayError(null)
+    if (reason === 'clickaway',event) {
+      return
+    }
+    setOpen(false)
+  }
+
   return (
     <><AppBar color='grey'>
       <Toolbar variant='prominent'>
@@ -79,9 +108,29 @@ export default function Todos() {
 
                       </AccordionSummary>
                       <AccordionDetails>
-                        {todos.map((todo)=>
-                          (<><Todo key={todoId} {...todo} /></>
-                          ) )}
+                        <Box
+                          sx={{
+                            display: 'grid',
+                            gridRow: 4,
+                            justifySelf: 'stretch' }}>
+                          {todos.map((todo)=>
+                            (<><Todo key={todoId} {...todo} />
+                              <Box
+                                sx={{
+                                  gridColumn: 3,
+                                  justifySelf: 'stretch'
+                                }}>
+                                <Button variant='text' onClick={handleOpen}>
+                                  <DeleteBtn handleDelete={() => deleteTodo(todo.id)} />
+                                </Button>
+                                <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                                  <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
+                                    <ErrorDisplay displayError={displayError} />
+                                  </Alert>
+                                </Snackbar>
+                              </Box></>
+                            ) )}
+                        </Box>
                       </AccordionDetails>
 
                     </Accordion></>}

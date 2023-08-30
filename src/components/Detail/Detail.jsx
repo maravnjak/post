@@ -79,7 +79,7 @@ export default function Detail() {
             <Tabs
               value={value}
               onChange={handleChange}
-              textColor='black'
+              textColor='inherit'
               centered>
 
               <Tab icon={<ContactsSharpIcon />} label={t('Name')} {...allyProps(0)} />
