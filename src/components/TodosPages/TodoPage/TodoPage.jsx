@@ -57,7 +57,7 @@ export default function TodoPage() {
 <><Accordion
   sx={{
     bgcolor: 'background.paper',
-    boxShadow: 1,
+    boxShadow: 3,
     borderRadius: 2,
     p: 2,
     minWidth: 300,
@@ -78,7 +78,7 @@ export default function TodoPage() {
       {t('Show All Todos')}
     </Button>
     {/* <Typography m={3}>//{userNameAtom}</Typography> */}
-    <Typography ml={20}>
+    <Typography>
       <UserUsername userId={userId} />
     </Typography>
   </AccordionSummary>

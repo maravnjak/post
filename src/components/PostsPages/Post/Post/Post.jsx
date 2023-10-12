@@ -22,9 +22,10 @@ const Post = (post) => {
           color='inherit'
           to={{
             pathname: `/users/${userId}/posts/${postId}`
-          // search: `?username=${username}&postTitle=${postTitle}&postBody=${postBody}`
+            // search: `?username=${username}&postTitle=${postTitle}&postBody=${postBody}`
           }}>
           {postTitle}
+
         </Button>
       </Typography></>
   )
@@ -32,3 +33,4 @@ const Post = (post) => {
 }
 
 export default Post
+

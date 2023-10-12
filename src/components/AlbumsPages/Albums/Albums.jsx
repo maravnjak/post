@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react'
-import { Alert, AppBar, Box, Button,ButtonGroup, List, ListItemText,Snackbar, Toolbar, Typography } from '@mui/material'
+import { Alert, AppBar,BottomNavigation, BottomNavigationAction, Box, Button,ButtonGroup,IconButton,List, ListItemText,Snackbar,TextField, Toolbar, Typography } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
 // import { useRecoilValue } from 'recoil'
@@ -8,15 +8,26 @@ import { useTranslation } from 'common/i18n'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
 import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
 import UserUsername from 'components/UserUsername/UserUsername'
+import UpdateIcon from '@mui/icons-material/Update'
+import EditNoteIcon from '@mui/icons-material/EditNote'
+import BackspaceIcon from '@mui/icons-material/Backspace'
+import PropTypes from 'prop-types'
+import apiServiceAlbums from 'services/apiServiceAlbums'
+
+import toast from 'react-hot-toast'
 
 import Album from '../Album/Album'
 
+import UpdateAlbum from './UpdateAlbum'
+
 export default function Albums() {
+  const { t } = useTranslation()
+  const { userId, albumId } = useParams()
   const [albums, setAlbums] = useState([])
   const [open, setOpen] = useState(false)
   const [displayError, setDisplayError] = useState(null)
-  const { t } = useTranslation()
-  const { userId, albumId } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
+  const [value, setValue] = useState(0)
   //   const query = useQuery()
   //   const username = query.get('username')
   //   const albumId = query.get('albumId')
@@ -33,19 +44,61 @@ export default function Albums() {
     getApiData()
   }, [userId])
 
-  const deleteAlbum = (id) => {
-    fetch(`https://jsonplaceholder.typicode.com/albums/${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => response.json())
-      .then(() => {
-        setAlbums(albums => {
-          return albums.filter(album => album.id !== id)
-        })
-
-        setDisplayError(t('Album title ') + `${id} ` + (t(' is deleted successfully.')))
+  //   const deleteAlbum = (albumId) => {
+  //     fetch(`https://jsonplaceholder.typicode.com/albums/${albumId}`, {
+  //       method: 'DELETE',
+  //     })
+  //       .then(response => response.json())
+  //       .then(() => {
+  //         setAlbums(albums => {
+  //           return albums.filter(album => album.id !== albumId)
+  //         })
+  //         setDisplayError(t(`Album title ${albumId} is deleted successfully.`))
+  //         //     toast.success(t('Album title ') + `${id} ` + (t(' is deleted successfully.')))
+  //       })
+  //   }
+  const deletedAlbum = async (albumId) => {
+    setIsLoading(true)
+    try {
+      await apiServiceAlbums.deleteAlbum(albumId)
+      setAlbums(albums => {
+        return albums.filter(album => album.id !== albumId)
       })
+      setDisplayError(t(`Album title ${albumId} is deleted successfully.`))
+
+    } catch (displayError) {
+      setDisplayError(null)
+
+    }
+    setIsLoading(false)
   }
+
+  //   const updatedAlbum = (albumId) => {
+  //     const album = albums.find(album => album.id === albumId)
+  //     let title = album
+  //     setIsLoading(true)
+  //     apiServiceAlbums.updateAlbum(albumId,title )
+  //     toast.success(t(`Album title ${albumId} is updated successfully.`))
+  //     setIsLoading(false)
+  //   }
+  //   const createTitle = () => {
+  //     const title = newTitle.trim()
+  //     setIsLoading(true)
+  //     try {
+  //       apiServiceAlbums.createAlbum({ title })
+  //       setAlbums([...albums, { albumId: lastId + 1, title }])
+  //       setNewTitle(newTitle)
+  //     } catch (displayError) {
+  //       setDisplayError(null)
+  //     }toast.success(t('Album title is created successfully.'))
+  //   }
+  //   const lastId = albums.reduce((previousValue, currentValue) => {
+  //     if (previousValue < currentValue.id) {
+  //       return currentValue.id
+  //     }
+  //     return previousValue
+  //   }, 0)
+
   const handleOpen = (event) =>{
     setOpen(true,event)
   }
@@ -82,7 +135,8 @@ export default function Albums() {
       <Typography variant='h6' color='text.secondary' noWrap>
         {t('Albums')}
         <Typography ml={10}>
-          <UserUsername userId={userId} /></Typography>
+          <UserUsername userId={userId} />
+        </Typography>
       </Typography>
       <ListItemText>
         <Box
@@ -92,22 +146,63 @@ export default function Albums() {
             justifySelf: 'stretch' }}>
           {albums.map((album) => (
             <><Album key={albumId} {...album} />
+
               <Box
                 sx={{
                   gridColumn: 3,
                   justifySelf: 'stretch'
                 }}>
-                <Button variant='text' onClick={handleOpen}>
-                  <DeleteBtn handleDelete={() => deleteAlbum(album.id)} />
-                </Button>
-                <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                  <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
-                    <ErrorDisplay displayError={displayError} />
-                  </Alert>
-                </Snackbar>
+
+                {/* <TextField
+                  multiline
+                  placeholder={t('Update album title')}
+                  value={album.title}
+                  onChange={event => {
+                    onChangeHandler(albumId, 'title', event)
+                    setTitle(event.target.value)
+                  }} /> */}
+                <BottomNavigation
+                  showLabels
+                  value={value}
+                  onChange={(event, newValue) => {
+                    event.preventDefault()
+                    setValue(newValue,event.target.value)
+                  }}
+                >
+                  {/* <ButtonGroup variant='text'> */}
+
+                  <IconButton aria-label='update'
+                    component={Link}
+                    to={{ pathname: `/albums/${album.id}` }}>
+
+                    <BottomNavigationAction label="update"
+                      icon={<UpdateIcon fontSize='small' />} />
+                  </IconButton>
+                  {/* onClick={()=>updatedAlbum(album.id)}/> */}
+                  <IconButton aria-label='create'
+                    component={Link}
+                    to={{ pathname: `/albums/${album.id}` }}>
+
+                    <BottomNavigationAction label='create'
+                      icon={<EditNoteIcon />}/>
+                  </IconButton>
+
+                  <IconButton onClick={handleOpen}>
+                    <DeleteBtn handleDelete={() => deletedAlbum(album.id)} />
+                  </IconButton>
+                  {/* </ButtonGroup> */}
+                </BottomNavigation>
               </Box></>
           ))}
         </Box>
+        <Button variant='text' onClick={handleOpen}>
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
+              <ErrorDisplay displayError={displayError} />
+            </Alert>
+          </Snackbar>
+        </Button>
+
       </ListItemText>
     </List></>
   )

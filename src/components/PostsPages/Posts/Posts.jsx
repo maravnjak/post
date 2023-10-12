@@ -2,11 +2,10 @@ import React,{ useEffect, useState } from 'react'
 import { Alert, AppBar,Box,Button, Toolbar, Typography, Snackbar } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
-import PropTypes from 'prop-types'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
 import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
 //import useQuery from 'components/useQuery/useQuery'
-
+import apiServicePosts from 'services/apiServicePosts'
 import UserUsername from 'components/UserUsername/UserUsername'
 
 import Post from '../Post/Post/Post'
@@ -18,6 +17,8 @@ export default function Posts() {
   const { userId, postId } = useParams()
   const [displayError, setDisplayError] = useState('')
   const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
   //const query = useQuery()
   //const username = query.get('username')
   //   const postId = query.get('postId')
@@ -32,18 +33,33 @@ export default function Posts() {
     getApiData()
   }, [userId])
 
-  const deletePost = (id) => {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => response.json())
-      .then(() => {
-        setPosts(posts => {
-          return posts.filter(post => post.id !== id)
-        })
+  //   const deletePost = (id) => {
+  //     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+  //       method: 'DELETE',
+  //     })
+  //       .then(response => response.json())
+  //       .then(() => {
+  //         setPosts(posts => {
+  //           return posts.filter(post => post.id !== id)
+  //         })
 
-        setDisplayError(t('Post title ') + `${id} ` + (t(' is deleted successfully.')))
+  //         setDisplayError(t('Post title ') + `${id} ` + (t(' is deleted successfully.')))
+  //       })
+  //   }
+  const deletedPost = async (id) => {
+    setIsLoading(true)
+    try {
+      await apiServicePosts.deletePost(id)
+      setPosts(posts => {
+        return posts.filter(post => post.id !== id)
       })
+      setDisplayError(t(`Post title ${id} is deleted successfully.`))
+
+    } catch (displayError) {
+      setDisplayError(null)
+
+    }
+    setIsLoading(false)
   }
   const handleOpen = (event) =>{
     setOpen(true,event)
@@ -69,7 +85,9 @@ export default function Posts() {
       sx={{
         display: 'grid',
         gridRow: 4,
-        justifySelf: 'stretch' }}>
+        justifySelf: 'stretch'
+      }}>
+
       {posts.map((post) => (
 
         <><Post key={postId} {...post} />
@@ -80,7 +98,7 @@ export default function Posts() {
               justifySelf: 'stretch'
             }}>
             <Button variant='text' onClick={handleOpen}>
-              <DeleteBtn handleDelete={() => deletePost(post.id)} />
+              <DeleteBtn handleDelete={() => deletedPost(post.id)} />
             </Button>
             <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
               <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
@@ -95,7 +113,3 @@ export default function Posts() {
   )
 }
 
-Posts.propTypes = {
-  handleDelete: PropTypes.func.isRequired
-
-}

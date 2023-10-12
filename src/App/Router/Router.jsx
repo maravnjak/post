@@ -24,6 +24,8 @@ import PhotoPage from 'components/AlbumsPages/PhotoPage/PhotoPage'
 
 import AddUser from 'components/AddUser/AddUser'
 
+import UpdateAlbum from 'components/AlbumsPages/Albums/UpdateAlbum'
+
 import styles from './Router.styles'
 
 const Home = React.lazy(() => import('./Home'))
@@ -52,7 +54,9 @@ const Router = ({ isLoading }) => {
             <Route key='comments' path={'/users/:userId/posts/:postId/comments'} element={<Comments />} />
             <Route key='photos' path={'/users/:userId/albums/:albumId/photos'} element={<Photos />} />
             <Route key='photo-page' path={'/users/:userId/albums/:albumId/photos/:photoId'} element={<PhotoPage />} />
-            <Route key='add-user' path='/add-user' element={<AddUser/>} />
+            <Route key='add-user' path='/add-user' element={<AddUser />} />
+            <Route key='update-album' path={'/albums/:albumId'} element={<UpdateAlbum/>} />
+
           </Routes>
         </Suspense>
 

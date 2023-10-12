@@ -10,8 +10,8 @@ const Album = (album) => {
   const albumTitle = album.title
   const albumId = album.id
   return (
-    <Box>
-      <Typography mt={3}>
+    <Box sx={{ display: 'grid', mb: 3 }}>
+      <Typography>
         <LibraryBooksIcon fontSize='small'/> {albumId}*{t('Album Title')}
       </Typography>
       <Typography
