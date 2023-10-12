@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
-import { AppBar, Button,TextField, Toolbar,Stack } from '@mui/material'
+import { AppBar,ButtonGroup, Button,TextField, Toolbar,Stack } from '@mui/material'
 import { toast } from 'react-hot-toast'
 import { useTranslation } from 'common/i18n'
 import { Link } from 'react-router-dom'
+import apiServiceUsers from 'services/apiServiceUsers'
+import validator from 'validator'
 
 const AddUser = () => {
   const { t } = useTranslation()
 
   const [users, setUsers] = useState([])
+  const [displayError, setDisplayError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [newName, setNewName] = useState('')
   const [newUsername, setNewUsername] = useState('')
   const [newEmail, setNewEmail] = useState('')
@@ -17,29 +21,71 @@ const AddUser = () => {
     const username = newUsername.trim()
     const email = newEmail.trim()
 
-    if (name && username && email) {
-      fetch('https://jsonplaceholder.typicode.com/users', {
-        method: 'POST',
-        body: JSON.stringify({
-          name,
-          username,
-          email,
+    setIsLoading(true)
+    try {
+      apiServiceUsers.createUser({ name, username, email })
+      //   fetch('https://jsonplaceholder.typicode.com/users', {
+      //     method: 'POST',
+      //     body: JSON.stringify({
+      //       name,
+      //       username,
+      //       email
 
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          setUsers([...users, data])
-          setNewName('')
-          setNewUsername('')
-          setNewEmail('')
-          toast.success(t('User added successfully'))
-        })
+      //     }),
+      //     headers: {
+      //       'Content-type': 'application/json; charset=UTF-8'
+      //     },
+      //   })
+      //   .then(response => response.json())
+      //   .then(data => {
+      setUsers([...users, { id: lastId + 1, name, username, email }])
+      setNewName(newName)
+      setNewUsername(newUsername)
+      setNewEmail(newEmail)
+
+    } catch (displayError) {
+      setDisplayError(null)
+
     }
+
+    if (newName === '') {
+      toast.error(t('Name is required'))
+    }
+    if (newUsername === ''){
+      toast.error(t('Userame is required'))
+    } else
+    if (newUsername.length < 4) {
+      toast.error(t('Userame is too short'))
+    }
+    if (newEmail === '') {
+      toast.error(t('Email is required'))
+    }
+    if (validator.isEmail(newEmail)) {
+      toast.error(t('Valid Email'))
+    } else {
+      toast.error(t('Enter valid Email: user@gmail.com'))
+    }
+
+    if (newName && newUsername.length > 4 && validator.isEmail(newEmail)) {
+      toast.success(t('User added successfully'))
+    }
+
+    setIsLoading(false)
   }
+
+  const lastId = users.reduce((previousValue, currentValue) => {
+    if (previousValue < currentValue.id) {
+      return currentValue.id
+    }
+    return previousValue
+  }, 0)
+
+  const handleClear = () => {
+    setNewName('')
+    setNewUsername('')
+    setNewEmail('')
+  }
+
   return (
     <><AppBar color='grey'>
       <Toolbar variant='prominent'>
@@ -76,8 +122,12 @@ const AddUser = () => {
         value={newEmail}
         onChange={e => setNewEmail(e.target.value)} />
 
-      <Button variant='outlinend' onClick={addNewUser}>{t('ADD USER')}</Button>
+      <ButtonGroup color='inherit' variant='text' size='small'>
+        <Button onClick={addNewUser}>{t('ADD USER')}</Button>
+        <Button onClick={handleClear}>{t('Clear Text Field')}</Button>
+      </ButtonGroup>
     </Stack></>
   )
 }
 export default AddUser
+
