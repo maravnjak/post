@@ -4,7 +4,6 @@ import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
 import DisplayMessage from 'components/DisplayMessage/DisplayMessage'
-//import useQuery from 'components/useQuery/useQuery'
 import apiServicePosts from 'services/apiServicePosts'
 import UserUsername from 'components/UserUsername/UserUsername'
 
@@ -20,10 +19,6 @@ export default function Posts() {
   const [isLoading, setIsLoading] = useState(false)
   const [displayMessage, setDisplayMessage] = useState(null)
 
-  //const query = useQuery()
-  //const username = query.get('username')
-  //   const postId = query.get('postId')
-
   const getApiData = async () => {
     let response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
     response = await response.json()
@@ -34,19 +29,6 @@ export default function Posts() {
     getApiData()
   }, [userId])
 
-  //   const deletePost = (id) => {
-  //     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-  //       method: 'DELETE',
-  //     })
-  //       .then(response => response.json())
-  //       .then(() => {
-  //         setPosts(posts => {
-  //           return posts.filter(post => post.id !== id)
-  //         })
-
-  //         setDisplayError(t('Post title ') + `${id} ` + (t(' is deleted successfully.')))
-  //       })
-  //   }
   const deletedPost = async (id) => {
     setIsLoading(true)
     try {
@@ -78,10 +60,22 @@ export default function Posts() {
         <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
       </Toolbar>
     </AppBar>
-    <Typography variant='h4' align='left' color='grey' sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'left', mb: '12px' }}>
+
+    <Typography
+      variant='h4'
+      align='left'
+      color='grey'
+      sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'left', mb: '12px' }}>
       <UserUsername userId={userId} />
     </Typography>
-    <Typography variant='h5' color='grey' letterSpacing={15} m={5} ml={2}>{t('Post Title')}</Typography>
+    <Typography
+      variant='h5'
+      color='grey'
+      letterSpacing={15}
+      m={5}
+      ml={2}>
+      {t('Post Title')}
+    </Typography>
     <Box
       sx={{
         display: 'grid',
