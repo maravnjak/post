@@ -82,7 +82,7 @@ const PostPage = () => {
           <Typography align='center'>
 
             {userId &&
-                              <><Typography variant='h4' align='center' m={12} fontStyle='italic'>{post.title}</Typography>
+                              <><Typography variant='prominent' align='center' m={12} fontStyle='italic'>{post.title}</Typography>
                                 <Typography variant='body1'>{post.body}</Typography>
                               </>}
           </Typography>

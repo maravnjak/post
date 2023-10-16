@@ -55,7 +55,7 @@ const Router = ({ isLoading }) => {
             <Route key='photos' path={'/users/:userId/albums/:albumId/photos'} element={<Photos />} />
             <Route key='photo-page' path={'/users/:userId/albums/:albumId/photos/:photoId'} element={<PhotoPage />} />
             <Route key='add-user' path='/add-user' element={<AddUser />} />
-            <Route key='update-album' path={'/albums/:albumId'} element={<UpdateAlbum/>} />
+            <Route key='update-album' path={'/users/:userId/albums/:albumId/:albumId'} element={<UpdateAlbum/>} />
 
           </Routes>
         </Suspense>

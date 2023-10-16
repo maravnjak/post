@@ -6,19 +6,13 @@ import { useTranslation } from 'common/i18n'
 // import { nameAtom } from 'store/atoms/shared.atom'
 // import useQuery from 'components/useQuery/useQuery'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
-import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
+import DisplayMessage from 'components/DisplayMessage/DisplayMessage'
 import UserUsername from 'components/UserUsername/UserUsername'
 import UpdateIcon from '@mui/icons-material/Update'
 import EditNoteIcon from '@mui/icons-material/EditNote'
-import BackspaceIcon from '@mui/icons-material/Backspace'
-import PropTypes from 'prop-types'
 import apiServiceAlbums from 'services/apiServiceAlbums'
 
-import toast from 'react-hot-toast'
-
 import Album from '../Album/Album'
-
-import UpdateAlbum from './UpdateAlbum'
 
 export default function Albums() {
   const { t } = useTranslation()
@@ -28,6 +22,9 @@ export default function Albums() {
   const [displayError, setDisplayError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [value, setValue] = useState(0)
+  const [displayMessage, setDisplayMessage] = useState(null)
+  const [title, setTitle] = useState([])
+
   //   const query = useQuery()
   //   const username = query.get('username')
   //   const albumId = query.get('albumId')
@@ -64,7 +61,7 @@ export default function Albums() {
       setAlbums(albums => {
         return albums.filter(album => album.id !== albumId)
       })
-      setDisplayError(t(`Album title ${albumId} is deleted successfully.`))
+      setDisplayMessage(t(`Album title ${albumId} is deleted successfully.`))
 
     } catch (displayError) {
       setDisplayError(null)
@@ -72,7 +69,6 @@ export default function Albums() {
     }
     setIsLoading(false)
   }
-
   //   const updatedAlbum = (albumId) => {
   //     const album = albums.find(album => album.id === albumId)
   //     let title = album
@@ -98,6 +94,9 @@ export default function Albums() {
   //     }
   //     return previousValue
   //   }, 0)
+  const onChangeHandler = (id,key, event) => {
+    setTitle({ ...title, [key]: event.target.value })
+  }
 
   const handleOpen = (event) =>{
     setOpen(true,event)
@@ -111,7 +110,7 @@ export default function Albums() {
   }
 
   return (
-    <><AppBar color='grey'>
+    <><AppBar color='inherit'>
       <Toolbar variant='prominent'>
         <ButtonGroup variant='text' color='inherit'>
           <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
@@ -143,7 +142,10 @@ export default function Albums() {
           sx={{
             display: 'grid',
             gridRow: 4,
-            justifySelf: 'stretch' }}>
+            justifySelf: 'stretch'
+
+          }}>
+
           {albums.map((album) => (
             <><Album key={albumId} {...album} />
 
@@ -162,7 +164,7 @@ export default function Albums() {
                     setTitle(event.target.value)
                   }} /> */}
                 <BottomNavigation
-                  showLabels
+                  showlabels={value.toString()}
                   value={value}
                   onChange={(event, newValue) => {
                     event.preventDefault()
@@ -172,16 +174,20 @@ export default function Albums() {
                   {/* <ButtonGroup variant='text'> */}
 
                   <IconButton aria-label='update'
+                    opacity={0.1}
                     component={Link}
-                    to={{ pathname: `/albums/${album.id}` }}>
+                    to={{ pathname: `/users/${userId}/albums/${album.id}/${album.id}` }}
+                    onChange={event => {
+                      onChangeHandler(albumId, 'title', event)
+                    }}>
 
-                    <BottomNavigationAction label="update"
+                    <BottomNavigationAction label='update'
                       icon={<UpdateIcon fontSize='small' />} />
                   </IconButton>
                   {/* onClick={()=>updatedAlbum(album.id)}/> */}
                   <IconButton aria-label='create'
                     component={Link}
-                    to={{ pathname: `/albums/${album.id}` }}>
+                    to={{ pathname: `/users/${userId}/albums/${album.id}/${album.id}` }}>
 
                     <BottomNavigationAction label='create'
                       icon={<EditNoteIcon />}/>
@@ -198,7 +204,7 @@ export default function Albums() {
         <Button variant='text' onClick={handleOpen}>
           <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
             <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
-              <ErrorDisplay displayError={displayError} />
+              <DisplayMessage displayMessage={displayMessage} />
             </Alert>
           </Snackbar>
         </Button>

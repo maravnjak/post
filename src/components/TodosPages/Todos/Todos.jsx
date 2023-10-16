@@ -1,11 +1,11 @@
 import React,{ useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Alert, AppBar, Accordion, AccordionSummary, AccordionDetails, Box, Button, ButtonGroup, Grid, Snackbar,TextField, Toolbar, Typography } from '@mui/material'
+import { Alert, AppBar, Accordion, AccordionSummary, AccordionDetails,Button, ButtonGroup, Grid, Snackbar,TextField, Toolbar, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useTranslation } from 'common/i18n'
 import UserUsername from 'components/UserUsername/UserUsername'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
-import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
+import DisplayMessage from 'components/DisplayMessage/DisplayMessage'
 import apiServiceTodos from 'services/apiServiceTodos'
 
 import Todo from '../Todo/Todo'
@@ -18,12 +18,13 @@ export default function Todos() {
 
   const [todos, setTodos] = useState([])
   console.log('TODOS = ', todos)
-  const { userId, todoId } = useParams()
+  const { userId, todoId, id } = useParams()
   const [open, setOpen] = useState(false)
   const [newTodoTitle, setNewTodoTitle] = useState('')
   const [title, setTitle] = useState()
   const [displayError, setDisplayError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [displayMessage, setDisplayMessage] = useState(null)
 
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/todos/?userId=${userId}`)
@@ -38,16 +39,18 @@ export default function Todos() {
       })
   }, [userId])
 
-  const createTodoTitle = () => {
+  const createTodoTitle = async () => {
     const title = newTodoTitle.trim()
     setIsLoading(true)
     try {
-      apiServiceTodos.createTodo({ title })
+      await apiServiceTodos.createTodo({ title })
       setTodos([...todos, { id: lastId + 1, title }])
       setNewTodoTitle(newTodoTitle)
+      setDisplayMessage(t('Todo title is created successfully.'))
     } catch (displayError) {
-      setDisplayError(t('Todo title is created successfully.'))
+      setDisplayError(null)
     }
+    setIsLoading(false)
   }
   const handleClearCreate = () => {
     setNewTodoTitle('')
@@ -66,7 +69,7 @@ export default function Todos() {
       setTodos(todos => {
         return todos.filter(todo => todo.id !== todoId)
       })
-      setDisplayError(t(`Todo title ${todoId} is deleted successfully.`))
+      setDisplayMessage(t(`Todo title ${todoId} is deleted successfully.`))
 
     } catch (displayError) {
       setDisplayError(null)
@@ -109,24 +112,23 @@ export default function Todos() {
 
       </Toolbar>
     </AppBar>
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container columnSpacing={1}>
 
-        {userId &&
+    <Grid container columnSpacing={1}>
+
+      {userId &&
                     <><Accordion
                       sx={{
                         bgcolor: 'background.paper',
                         boxShadow: 3,
                         borderRadius: 2,
                         p: 2,
-                        minWidth: 800,
                       }}>
 
                       <AccordionSummary
                         aria-controls="panel-content"
                         id="panel-header"
                       >
-                        <Grid item spacing={3}>
+                        <Grid item spacing={2}>
                           <Typography>
                             <UserUsername userId={userId} />
                           </Typography>
@@ -137,8 +139,7 @@ export default function Todos() {
 
                       </AccordionSummary>
                       <AccordionDetails>
-
-                        <Grid item xs={6} md={8}>
+                        <Grid item xs={8}>
                           <TextField
                             multiline
                             placeholder={t('Create todo title')}
@@ -147,31 +148,39 @@ export default function Todos() {
                               onChangeHandler(todoId, 'title', event)
                               setNewTodoTitle(event.target.value)
                             }} />
-                          <ButtonGroup variant='text' color='inherit' size='small'>
-                            <Button onClick={()=>createTodoTitle(title)}>{t('Create Title')}</Button>
-                            <Button onClick={handleClearCreate}>{t('Clear Text Field')}</Button>
-                          </ButtonGroup>
-
+                          <Grid item xs={8} mb={3}>
+                            <ButtonGroup variant='text' color='inherit' size='small'>
+                              <Button variant='text' onClick={handleOpen}>
+                                <Button onClick={()=>createTodoTitle(title)}>{t('Create Title')}</Button>
+                              </Button>
+                              <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                                <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
+                                  <DisplayMessage displayMessage={displayMessage} />
+                                </Alert>
+                              </Snackbar>
+                              <Button onClick={handleClearCreate}>{t('Clear Text Field')}</Button>
+                            </ButtonGroup>
+                          </Grid>
+                        </Grid>
+                        <Grid item key={todoId} xs={12} md={6} lg={4}>
                           {todos.map((todo)=>
                             (<><Todo key={todoId} {...todo} />
-
-                              <Grid item xs={1}>
+                              <Grid item xs={12}>
                                 <Button variant='text' onClick={handleOpen}>
                                   <DeleteBtn handleDelete={() => deletedTodo(todo.id)} />
                                 </Button>
                                 <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
                                   <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
-                                    <ErrorDisplay displayError={displayError} />
+                                    <DisplayMessage displayMessage={displayMessage} />
                                   </Alert>
                                 </Snackbar>
-                              </Grid>
-                            </>
+                              </Grid></>
+
                             ))}
                         </Grid>
                       </AccordionDetails>
 
                     </Accordion></>}
-      </Grid>
-    </Box></>
+    </Grid></>
   )
 }

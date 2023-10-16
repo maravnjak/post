@@ -3,26 +3,26 @@ import { Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'common/i18n'
 
-const ErrorDisplay = ({ displayError, isLoading }) => {
+const DisplayMessage = ({ displayMessage, isLoading }) => {
   const { t } = useTranslation()
   console.log({ isLoading })
   return (
     <>{isLoading &&
       (<Typography>Loading...</Typography>)}
     <Typography>
-      {displayError}
+      {displayMessage}
     </Typography></>
 
   )
 }
-ErrorDisplay.propTypes = {
-  displayError: PropTypes.string.isRequired,
+DisplayMessage.propTypes = {
+  displayMessage: PropTypes.string.isRequired,
   isLoading: PropTypes.bool
 }
 
-ErrorDisplay.defaultProps = {
+DisplayMessage.defaultProps = {
   isLoading: false
 }
 
-export default ErrorDisplay
+export default DisplayMessage
 
