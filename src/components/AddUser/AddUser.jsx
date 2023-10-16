@@ -24,20 +24,6 @@ const AddUser = () => {
     setIsLoading(true)
     try {
       apiServiceUsers.createUser({ name, username, email })
-      //   fetch('https://jsonplaceholder.typicode.com/users', {
-      //     method: 'POST',
-      //     body: JSON.stringify({
-      //       name,
-      //       username,
-      //       email
-
-      //     }),
-      //     headers: {
-      //       'Content-type': 'application/json; charset=UTF-8'
-      //     },
-      //   })
-      //   .then(response => response.json())
-      //   .then(data => {
       setUsers([...users, { id: lastId + 1, name, username, email }])
       setNewName(newName)
       setNewUsername(newUsername)

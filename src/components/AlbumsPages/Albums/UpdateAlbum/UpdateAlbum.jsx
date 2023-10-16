@@ -74,21 +74,19 @@ function UpdateAlbum() {
           {t('Back to Albums')}
         </Button>
         <UserUsername userId={userId} />
-
       </Toolbar>
     </AppBar>
+
     <Container sx={{
       flexGrow: 1,
       overflow: 'hidden',
       pt: 20,
-
     }}>
       <Stack
         component='form'
         direction={{ xs: 'column' }}
         spacing={{ xs: 1, sm: 2, md: 4 }}
-        alignItems="center"
-      >
+        alignItems="center">
 
         <><TextField
           id='update-title'
@@ -110,6 +108,7 @@ function UpdateAlbum() {
           </Snackbar>
         </ButtonGroup></>
         <TextField
+          id='create-title'
           multiline
           placeholder={t('create title')}
           value={newTitle}

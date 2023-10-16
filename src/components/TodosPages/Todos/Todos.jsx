@@ -9,16 +9,13 @@ import DisplayMessage from 'components/DisplayMessage/DisplayMessage'
 import apiServiceTodos from 'services/apiServiceTodos'
 
 import Todo from '../Todo/Todo'
-// import { useRecoilValue } from 'recoil'
-// import { nameAtom } from 'store/atoms/shared.atom'
 
 export default function Todos() {
   const { t } = useTranslation()
-  //const userNameAtom = useRecoilValue(nameAtom)
 
   const [todos, setTodos] = useState([])
   console.log('TODOS = ', todos)
-  const { userId, todoId, id } = useParams()
+  const { userId, todoId } = useParams()
   const [open, setOpen] = useState(false)
   const [newTodoTitle, setNewTodoTitle] = useState('')
   const [title, setTitle] = useState()
@@ -97,14 +94,21 @@ export default function Todos() {
 
         <ButtonGroup variant='text' color='inherit'>
 
-          <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
+          <Button
+            component={Link} to='/users'
+            size='large'
+            color='inherit'>
+            {t('Users')}
+          </Button>
 
-          <Button LinkComponent={Link}
+          <Button
+            LinkComponent={Link}
             to={{ pathname: `/users/${userId}/posts` }}>
             {t('Posts')}
           </Button>
 
-          <Button LinkComponent={Link}
+          <Button
+            LinkComponent={Link}
             to={{ pathname: `/users/${userId}/albums` }}>
             {t('Albums')}
           </Button>
@@ -132,10 +136,13 @@ export default function Todos() {
                           <Typography>
                             <UserUsername userId={userId} />
                           </Typography>
-                          <Typography variant='h6' color='#bdbdbd'>{t('Todos')}<ExpandMoreIcon /></Typography>
+                          <Typography
+                            variant='h6'
+                            color='#bdbdbd'>
+                            {t('Todos')}
+                            <ExpandMoreIcon />
+                          </Typography>
                         </Grid>
-
-                        {/* <Typography m={3}>{userNameAtom}</Typography> */}
 
                       </AccordionSummary>
                       <AccordionDetails>
@@ -149,8 +156,13 @@ export default function Todos() {
                               setNewTodoTitle(event.target.value)
                             }} />
                           <Grid item xs={8} mb={3}>
-                            <ButtonGroup variant='text' color='inherit' size='small'>
-                              <Button variant='text' onClick={handleOpen}>
+                            <ButtonGroup
+                              variant='text'
+                              color='inherit'
+                              size='small'>
+                              <Button
+                                variant='text'
+                                onClick={handleOpen}>
                                 <Button onClick={()=>createTodoTitle(title)}>{t('Create Title')}</Button>
                               </Button>
                               <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -174,9 +186,7 @@ export default function Todos() {
                                     <DisplayMessage displayMessage={displayMessage} />
                                   </Alert>
                                 </Snackbar>
-                              </Grid></>
-
-                            ))}
+                              </Grid></>))}
                         </Grid>
                       </AccordionDetails>
 

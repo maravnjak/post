@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import UserCard from 'components/UserCard/UserCard'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
 import DisplayMessage from 'components/DisplayMessage/DisplayMessage'
-//import { toast } from 'react-hot-toast'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import apiServiceUsers from 'services/apiServiceUsers'
 
@@ -18,20 +17,6 @@ export default function Users() {
   const [displayError, setDisplayError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [displayMessage, setDisplayMessage] = useState(null)
-
-  // useEffect(() => {
-  // fetch('https://jsonplaceholder.typicode.com/users')
-  // .then((response) => {
-  // console.log('resolved', response)
-  // return response.json()
-  // }).then(data => {
-  // console.log(data)
-  // setUsers(data)
-  // }).catch((err) => {
-  // console.log('reject', err)
-  // })
-  // }, [])
-  // console.log('users = ', users)
 
   const fetchData = async () => {
     setIsLoading(true)
@@ -48,10 +33,6 @@ export default function Users() {
     fetchData()
   }, [])
 
-  // if (isLoading) {
-  // return <Typography>Loading...</Typography>
-  // }
-
   const deletedUser = async (id) => {
     setIsLoading(true)
     try {
@@ -67,34 +48,6 @@ export default function Users() {
     }
     setIsLoading(false)
   }
-
-  // if (displayError) {
-
-  // return (
-
-  // <Alert severity="success">
-  // <DisplayMessage displayError={displayError} />
-  // </Alert>
-  // )
-  // }
-  // const deleteUser = (id) => {
-  // fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
-  // method: 'DELETE',
-  // })
-  // .then(response => response.json())
-  // .then(() => {
-  // setUsers(users => {
-  // return users.filter(user => user.id !== id)
-
-  // })
-
-  // //toast.success(t('User deleted successfully.'))
-  // setDisplayError(t('User deleted successfully.'))
-  // })
-
-  // }
-
-  console.log('errordisplay ', displayError)
 
   const handleOpen = (event) => {
     setOpen(true, event)
@@ -117,9 +70,14 @@ export default function Users() {
           color='inherit'>
           {t('Back to Home Page')}
         </Button>
-        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} mr={-15} position={'relative'}>
+        <Grid
+          container
+          rowSpacing={2}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          mr={-15}
+          position='relative'>
 
-          <Typography variant='prominent'> {t('List of Users')}</Typography>
+          <Typography variant='h4'> {t('List of Users')}</Typography>
         </Grid>
         <Grid item xs={1}>
 
@@ -128,7 +86,8 @@ export default function Users() {
             to='/add-user'
             color='inherit'>
             <Typography variant='body2' noWrap>
-              {t('Add User')} <PersonAddIcon />
+              {t('Add User')}
+              <PersonAddIcon />
             </Typography>
           </IconButton>
 
@@ -152,7 +111,6 @@ export default function Users() {
                 </Alert>
               </Snackbar>
             </Box>
-
             <UserCard user={user} />
           </Grid>
 

@@ -10,16 +10,13 @@ import TabPanel from 'components/TabPanel/TabPanel'
 import allyProps from 'components/TabPanel/allyProps/allyProps'
 import { toast } from 'react-hot-toast'
 
-// import { useRecoilState } from 'recoil'
-// import { nameAtom } from 'store/atoms/shared.atom'
-
 export default function Detail() {
+
   const { t } = useTranslation()
   console.log( ' ....DETAiL....')
   const { userId } = useParams()
   const [user, setUser] = useState({})
   const [value, setValue] = useState(0)
-  // const [userNameAtom, setUserNameAtom] = useRecoilState(nameAtom)
   const userName = user.name
   console.log('setUserName detil = ', userName)
 
@@ -41,7 +38,6 @@ export default function Detail() {
     setValue(newValue)
   }
   const updateUser = ()=> {
-    //const user = users.find(user => user.id === id)
     let { website, phone } = user
     fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
       method: 'PUT',
@@ -85,8 +81,8 @@ export default function Detail() {
               <Tab icon={<ContactsSharpIcon />} label={t('Name')} {...allyProps(0)} />
               <Tab icon={<LanguageSharpIcon />} label={t('Website')} {...allyProps(1)} />
               <Tab icon={<Phone />} label={t('phone')} {...allyProps(2)} />
-
             </Tabs>
+
             <Grid container spacing={1}>
               <TabPanel value={value} index={0}>
                 <Typography
@@ -96,47 +92,34 @@ export default function Detail() {
                 </Typography>
               </TabPanel>
 
-              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} textAlign={'center'}>
-                <TabPanel value={value} index={1}>
-                  {/* <Typography
-                    fontStyle='oblique'
-                    color='text.disabled'
-                    fontSize='20px' display='flex'
-                    flexDirection={1} ml='220px'>
-                    {user.website}
-                  </Typography> */}
+              <Grid
+                container
+                rowSpacing={1}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                textAlign={'center'}>
 
+                <TabPanel value={value} index={1}>
                   <Grid item xs={6} ml={25}>
                     <TextField
                       multiline
                       placeholder={t('Update website')}
                       value={user.website}
                       onChange={event => onChangeHandler(userId, 'website', event)} />
-
                     <Button onClick={() => updateUser(userId)}>{t('Update')}</Button>
-
                   </Grid>
                 </TabPanel>
 
                 <TabPanel value={value} index={2}>
-
-                  {/* <Typography
-                    variant='body2'
-                    color='grey'
-                    fontSize='17px'>
-                    {user.phone}
-                  </Typography> */}
                   <Grid item ml={40}>
                     <TextField
                       multiline
                       placeholder={t('Update phone')}
                       value={user.phone}
                       onChange={event => onChangeHandler(userId, 'phone', event)} />
-
                     <Button onClick={() => updateUser(userId)}>{t('Update')}</Button>
-
                   </Grid>
                 </TabPanel>
+
               </Grid>
             </Grid>
           </Grid>
@@ -150,16 +133,13 @@ export default function Detail() {
           LinkComponent={Link}
           to={{
             pathname: `/users/${userId}/posts`
-            //, search: `?username=${userName}`
-          }}
-        >
+          }}>
           {t('Posts')}
         </Button>
 
         <Button LinkComponent={Link}
           to={{
             pathname: `/users/${userId}/albums`
-            //, search: `?username=${userName}`
           }}>
           {t('Albums')}
         </Button>
@@ -167,7 +147,6 @@ export default function Detail() {
         <Button LinkComponent={Link}
           to={{
             pathname: `/users/${userId}/todos`
-            //, search: `?username=${userName}`
           }}>
           {t('Todos')}
         </Button>
@@ -176,7 +155,3 @@ export default function Detail() {
   )
 }
 
-Detail.propTypes = {
-  id: PropTypes.number.isRequired
-
-}

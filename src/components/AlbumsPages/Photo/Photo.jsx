@@ -1,17 +1,12 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-
 import { IconButton, ImageList, ImageListItemBar, ImageListItem, Grid } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
-
-//import useQuery from 'components/useQuery/useQuery'
 import { useTranslation } from 'common/i18n'
 
 const Photo = (photo) => {
   const { t } = useTranslation()
 
-  //const query = useQuery()
-  //const username = query.get('username')
   const { userId, albumId } = useParams()
   const photoId = photo.id
   return (

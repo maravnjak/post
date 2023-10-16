@@ -19,7 +19,6 @@ const Album = (album) => {
         color='inherit'
         textdecorationline='none'
         href={`/users/${userId}/albums/${albumId}`
-          //   , search: `?albumTitle=${albumTitle}`
         }>
 
         <Typography variant='h5'

@@ -12,7 +12,6 @@ export default function UserCard({ user }) {
 
     <Card elevation={1}>
       <CardHeader
-
         action={
           <Typography
             variant='h6'

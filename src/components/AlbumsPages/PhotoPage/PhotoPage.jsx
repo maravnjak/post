@@ -1,13 +1,12 @@
 import React,{ useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-
 import { useTranslation } from 'common/i18n'
 import UserUsername from 'components/UserUsername/UserUsername'
 import { AppBar, ButtonGroup, Button, Grid, ImageList, ImageListItem, ImageListItemBar, Toolbar, Typography } from '@mui/material'
 
 export default function PhotoPage() {
-  const { t } = useTranslation()
 
+  const { t } = useTranslation()
   const [photo, setPhoto] = useState([])
   const { userId,albumId, photoId } = useParams()
 
@@ -30,16 +29,23 @@ export default function PhotoPage() {
             LinkComponent={Link}
             to={{
               pathname: `/users/${userId}/albums/${albumId}/photos`
-              //, search: `?username=${userName}`
-            }}
-          >
+            }}>
             {t('Back to Photos')}
           </Button>
         </ButtonGroup>
       </Toolbar>
-    </AppBar><Typography variant='h5' color='grey' letterSpacing={15} m={5} ml={2} noWrap sx={{ borderBottom: 1, borderColor: 'divider', mt: '15px' }}>
+    </AppBar>
+    <Typography
+      variant='h5'
+      color='grey'
+      letterSpacing={15}
+      m={5}
+      ml={2}
+      noWrap
+      sx={{ borderBottom: 1, borderColor: 'divider', mt: '15px' }}>
       <Typography textAlign='center'>
-        <UserUsername userId={userId} /></Typography>
+        <UserUsername userId={userId} />
+      </Typography>
     </Typography>
     <Grid container alignContent='center' ml={30} mt={10}>
       <Grid item >

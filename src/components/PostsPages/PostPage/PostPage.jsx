@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { AppBar, Box, Button, ButtonGroup, Grid, Toolbar, Typography } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
-// import { useRecoilValue } from 'recoil'
-// import { nameAtom } from 'store/atoms/shared.atom'
-//import useQuery from 'components/useQuery/useQuery'
-
 import UserUsername from 'components/UserUsername/UserUsername'
 
 const PostPage = () => {
@@ -14,9 +10,7 @@ const PostPage = () => {
 
   const [post,setPost] = useState({})
   const { postId, userId } = useParams()
-  //const userNameAtom = useRecoilValue(nameAtom)
-  //   const query = useQuery()
-  //   const username = query.get('username')
+
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then((response) => {
@@ -33,16 +27,28 @@ const PostPage = () => {
   return (
     <><AppBar color='grey'>
       <Toolbar variant='prominent'>
-        <Button component={Link} to='/users' size='large' color='inherit'>{t('Users')}</Button>
+        <Button
+          component={Link}
+          to='/users'
+          size='large'
+          color='inherit'>
+          {t('Users')}
+        </Button>
       </Toolbar>
-    </AppBar><Box sx={{ flexGrow: 1, maxWidth: 1000 }}>
+    </AppBar>
 
+    <Box sx={{ flexGrow: 1, maxWidth: 1000 }}>
       <Typography align='right' color='#bdbdbd'>
-        <ButtonGroup variant='text' color='inherit' aria-label='medium secondary button group' mr='10px'>
+
+        <ButtonGroup
+          variant='text'
+          color='inherit'
+          aria-label='medium secondary button group'
+          mr='10px'>
+
           <Button LinkComponent={Link}
             to={{
               pathname: `/users/${userId}/albums`
-              //search: `?username=${username}`
             }}>
             {t('Albums')}
           </Button>
@@ -55,26 +61,31 @@ const PostPage = () => {
         </ButtonGroup>
       </Typography>
 
-      <Typography variant='h4' color='#bdbdbd' sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'center' }}>
+      <Typography
+        variant='h4'
+        color='#bdbdbd'
+        sx={{ borderBottom: 1, borderColor: 'divider', textAlign: 'center' }}>
         <UserUsername userId={userId} />
       </Typography>
-      <Grid container spacing={8}>
-        <Grid item xs={12}>
-          <Button LinkComponent={Link}
+      <Grid container spacing={2}>
+        <Grid item xs={12 } lg={3}>
+          <Button
+            LinkComponent={Link}
+            variant='text'
+            color='inherit'
             to={{
               pathname: `/users/${userId}/posts`
-            //, search: `?username=${username}`
-            }}
-            variant='text' color='inherit'>
+            }}>
             {t('Show All Posts')}
           </Button>
-          <Grid ml={99} mt={-5} >
-            <Button LinkComponent={Link}
-              to={{ pathname: `/users/${userId}/posts/${postId}/comments` }}
-              variant='text' color='inherit' >
-              {t('Comments for This Post')}
-            </Button>
-          </Grid>
+        </Grid>
+        <Grid item xs={12} lg={3} ml={63}>
+          <Button LinkComponent={Link}
+            variant='text'
+            color='inherit'
+            to={{ pathname: `/users/${userId}/posts/${postId}/comments` }}>
+            {t('Comments for This Post')}
+          </Button>
         </Grid>
       </Grid>
       <Grid sx={{ display: 'grid', gridTemplateRows: 'repeat(2,auto)', gridTemplateColumns: 'repeat(3, auto)' }} padding='40px'>
@@ -82,8 +93,16 @@ const PostPage = () => {
           <Typography align='center'>
 
             {userId &&
-                              <><Typography variant='prominent' align='center' m={12} fontStyle='italic'>{post.title}</Typography>
-                                <Typography variant='body1'>{post.body}</Typography>
+                              <><Typography
+                                variant='prominent'
+                                align='center' m={12}
+                                fontStyle='italic'>
+                                {post.title}
+                              </Typography>
+                              <Typography
+                                variant='body1'>
+                                {post.body}
+                              </Typography>
                               </>}
           </Typography>
         </Grid>

@@ -6,6 +6,7 @@ import { useTranslation } from 'common/i18n'
 const DisplayMessage = ({ displayMessage, isLoading }) => {
   const { t } = useTranslation()
   console.log({ isLoading })
+
   return (
     <>{isLoading &&
       (<Typography>Loading...</Typography>)}

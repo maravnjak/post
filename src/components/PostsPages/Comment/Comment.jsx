@@ -2,14 +2,11 @@ import React from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-//import useQuery from 'components/useQuery/useQuery'
 import { useTranslation } from 'common/i18n'
 
 const Comment = (comment) => {
-  const { t } = useTranslation()
 
-  //const query = useQuery()
-  //const username = query.get('username')
+  const { t } = useTranslation()
 
   return (
 
@@ -18,15 +15,35 @@ const Comment = (comment) => {
         expandIcon={<ExpandMoreIcon />}
         aria-controls='panel-content'
         id='panel-header'>
-        <Typography variant='body2' color='GrayText' sx={{ width: '33%', flexShrink: 0 }} gutterBottom>email: {comment.email}</Typography>
+        <Typography
+          variant='body2'
+          color='GrayText'
+          sx={{ width: '33%', flexShrink: 0 }}
+          gutterBottom>email:
+          {comment.email}
+        </Typography>
+
         <Grid>
-          <Typography variant='h6' color='ThreeDDarkShadow' gutterBottom>{comment.name}</Typography>
+          <Typography
+            variant='h6'
+            color='ThreeDDarkShadow'
+            gutterBottom>
+            {comment.name}
+          </Typography>
         </Grid>
+
       </AccordionSummary>
       <AccordionDetails>
+
         <Grid mb={5}>
-          <Typography variant='body1' color='MenuText' gutterBottom>{comment.body}</Typography>
+          <Typography
+            variant='body1'
+            color='MenuText'
+            gutterBottom>
+            {comment.body}
+          </Typography>
         </Grid>
+
       </AccordionDetails>
     </Accordion>
 
