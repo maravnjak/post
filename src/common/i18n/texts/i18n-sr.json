@@ -60,7 +60,10 @@
   "Album title ' + ` ${albumId}` + ' is deleted successfully.":"Naslov albuma je uspešno obrisan.",
   "Create Title": "Kreiranje naslova",
   "Update album title":"Ažuriranje naslova albuma",
-  "Create album title": "Kreiranje naslova albuma",
-  "Create todo title": "Kreiranje naslova obaveza"
+  "create title": "kreirajte naslov",
+  "Create todo title": "Kreiranje naslova obaveza",
+  "Todo title is created successfully.":"Naslov obaveze je uspešno kreiran.",
+  "Back to Albums":"Povratak na albume",
+  "update title": "ažuriranje naslova"
 
 }

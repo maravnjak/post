@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import UserCard from 'components/UserCard/UserCard'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
-import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
+import DisplayMessage from 'components/DisplayMessage/DisplayMessage'
 //import { toast } from 'react-hot-toast'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import apiServiceUsers from 'services/apiServiceUsers'
@@ -17,6 +17,7 @@ export default function Users() {
   const [open, setOpen] = useState(false)
   const [displayError, setDisplayError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [displayMessage, setDisplayMessage] = useState(null)
 
   // useEffect(() => {
   // fetch('https://jsonplaceholder.typicode.com/users')
@@ -58,7 +59,7 @@ export default function Users() {
       setUsers(users => {
         return users.filter(user => user.id !== id)
       })
-      setDisplayError(t('User is deleted successfully.'))
+      setDisplayMessage(t('User is deleted successfully.'))
 
     } catch (displayError) {
       setDisplayError(null)
@@ -72,7 +73,7 @@ export default function Users() {
   // return (
 
   // <Alert severity="success">
-  // <ErrorDisplay displayError={displayError} />
+  // <DisplayMessage displayError={displayError} />
   // </Alert>
   // )
   // }
@@ -116,9 +117,9 @@ export default function Users() {
           color='inherit'>
           {t('Back to Home Page')}
         </Button>
-        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} mr={-15}>
+        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} mr={-15} position={'relative'}>
 
-          <Typography variant='h4'> {t('List of Users')}</Typography>
+          <Typography variant='prominent'> {t('List of Users')}</Typography>
         </Grid>
         <Grid item xs={1}>
 
@@ -147,11 +148,9 @@ export default function Users() {
 
               <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} >
                 <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose } >
-                  <ErrorDisplay displayError={displayError} isLoading={isLoading} />
-
+                  <DisplayMessage displayMessage={displayMessage} isLoading={isLoading} />
                 </Alert>
               </Snackbar>
-
             </Box>
 
             <UserCard user={user} />

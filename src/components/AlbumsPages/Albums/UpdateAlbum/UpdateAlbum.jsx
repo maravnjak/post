@@ -1,21 +1,23 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import apiServiceAlbums from 'services/apiServiceAlbums'
-import { Alert,Button,ButtonGroup,Snackbar,Stack,TextField } from '@mui/material'
-import ErrorDisplay from 'components/ErrorDisplay'
-import toast from 'react-hot-toast'
+import { Alert, AppBar,Button,ButtonGroup,Container,Snackbar,Stack,TextField, Toolbar } from '@mui/material'
+import DisplayMessage from 'components/DisplayMessage'
 import { useTranslation } from 'common/i18n'
+import UserUsername from 'components/UserUsername/UserUsername'
 
 function UpdateAlbum() {
 
   const { t } = useTranslation()
-  const { albumId } = useParams()
+  const { userId, albumId } = useParams()
+  console.log('updateAlbum ','userId ',userId, 'albumId ', albumId)
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState([])
   const [displayError, setDisplayError] = useState(null)
   const [newTitle, setNewTitle] = useState('')
   const [albums, setAlbums] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [displayMessage, setDisplayMessage] = useState(null)
 
   const createTitle = () => {
     const title = newTitle.trim()
@@ -26,7 +28,7 @@ function UpdateAlbum() {
       setNewTitle(newTitle)
     } catch (displayError) {
       setDisplayError(null)
-    }toast.success(t('Album title is created successfully.'))
+    }setDisplayMessage(t('Album title is created successfully.'))
   }
   const lastId = albums.reduce((previousValue, currentValue) => {
     if (previousValue < currentValue.id) {
@@ -37,8 +39,8 @@ function UpdateAlbum() {
 
   const updatedAlbum = () => {
     setIsLoading(true)
-    apiServiceAlbums.updateAlbum(albumId, { title } )
-    toast.success(t(`Album title ${albumId} is updated successfully.`))
+    apiServiceAlbums.updateAlbum(albumId,{ title })
+    setDisplayMessage(t(`Album title ${albumId} is updated successfully.`))
     setIsLoading(false)
   }
 
@@ -62,49 +64,70 @@ function UpdateAlbum() {
     setOpen(false)
   }
   return (
+    <><AppBar sx={{ flexDirection: 'column', color: 'inherit', backgroundColor: 'white' }} >
+      <Toolbar variant='prominent'>
+        <Button color='inherit'
+          LinkComponent={Link}
+          to={{
+            pathname: `/users/${userId}/albums`
+          }}>
+          {t('Back to Albums')}
+        </Button>
+        <UserUsername userId={userId} />
 
-    <Stack
-      component='form'
-      sx={{
-        width: '35ch',
-      }}
-      direction='column'
-      justifyContent='center'
-      align='center'
-      spacing={5}>
+      </Toolbar>
+    </AppBar>
+    <Container sx={{
+      flexGrow: 1,
+      overflow: 'hidden',
+      pt: 20,
 
-      <><TextField
-        multiline
-        placeholder={t('Update album title')}
-        value={title}
-        onChange={event => {
-          onChangeHandler(albumId, 'title', event)
-          setTitle(event.target.value)
-        }} />
-      <ButtonGroup variant='text' color='inherit'>
-        <Button onClick={() => updatedAlbum({ albumId,title })}
-        >{t('Update')}</Button>
-        <Button onClick={handleClearUpdate}>{t('Clear Text Field')}</Button>
-      </ButtonGroup></>
-      <TextField
-        multiline
-        placeholder={t('Create album title')}
-        value={newTitle}
-        onChange={event => {
-          setNewTitle(event.target.value)
-        }} />
-      <ButtonGroup variant='text' color='inherit'>
-        <Button onClick={()=>createTitle(title)}>{t('Create Title')}</Button>
-        <Button onClick={handleClearCreate}>{t('Clear Text Field')}</Button>
-      </ButtonGroup>
-      <Button variant='text' onClick={handleOpen}>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-          <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
-            <ErrorDisplay displayError={displayError} />
-          </Alert>
-        </Snackbar>
-      </Button>
-    </Stack>
+    }}>
+      <Stack
+        component='form'
+        direction={{ xs: 'column' }}
+        spacing={{ xs: 1, sm: 2, md: 4 }}
+        alignItems="center"
+      >
+
+        <><TextField
+          id='update-title'
+          multiline
+          label={albumId}
+          placeholder={t('update title')}
+          value={title}
+          onChange={event => {
+            onChangeHandler(albumId, title, event)
+            setTitle(event.target.value)
+          } } />
+        <ButtonGroup variant='text' color='inherit' onClick={handleOpen}>
+          <Button onClick={() => updatedAlbum({ albumId, title })}>{t('Update')}</Button>
+          <Button onClick={handleClearUpdate}>{t('Clear Text Field')}</Button>
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
+              <DisplayMessage displayMessage={displayMessage} />
+            </Alert>
+          </Snackbar>
+        </ButtonGroup></>
+        <TextField
+          multiline
+          placeholder={t('create title')}
+          value={newTitle}
+          onChange={event => {
+            setNewTitle(event.target.value)
+          } } />
+        <ButtonGroup variant='text' color='inherit' onClick={handleOpen}>
+          <Button onClick={() => createTitle(title)}>{t('Create Title')}</Button>
+          <Button onClick={handleClearCreate}>{t('Clear Text Field')}</Button>
+
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
+              <DisplayMessage displayMessage={displayMessage} />
+            </Alert>
+          </Snackbar>
+        </ButtonGroup>
+      </Stack>
+    </Container></>
   )
 }
 

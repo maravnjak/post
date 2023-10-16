@@ -17,7 +17,7 @@ const Album = (album) => {
       <Typography
         component='a'
         color='inherit'
-        textDecorationLine='none'
+        textdecorationline='none'
         href={`/users/${userId}/albums/${albumId}`
           //   , search: `?albumTitle=${albumTitle}`
         }>

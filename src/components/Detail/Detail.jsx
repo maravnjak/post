@@ -71,7 +71,7 @@ export default function Detail() {
       </Toolbar>
     </AppBar><>
 
-      <Container sx={{ maxWidth: 'xl', maxHeight: '100%', typography: 'body2', borderBottom: 1, borderColor: 'divider', bgcolor: '#bcd' }}>
+      <Container sx={{ maxWidth: 'xl', maxHeight: '100%', typography: 'body2', borderBottom: 1, }}>
 
         <Box sx={{ width: 600, height: 600, }}>
 

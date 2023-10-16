@@ -3,7 +3,7 @@ import { Alert, AppBar,Box,Button, Toolbar, Typography, Snackbar } from '@mui/ma
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'common/i18n'
 import DeleteBtn from 'components/DeleteBtn/DeleteBtn'
-import ErrorDisplay from 'components/ErrorDisplay/ErrorDisplay'
+import DisplayMessage from 'components/DisplayMessage/DisplayMessage'
 //import useQuery from 'components/useQuery/useQuery'
 import apiServicePosts from 'services/apiServicePosts'
 import UserUsername from 'components/UserUsername/UserUsername'
@@ -18,6 +18,7 @@ export default function Posts() {
   const [displayError, setDisplayError] = useState('')
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [displayMessage, setDisplayMessage] = useState(null)
 
   //const query = useQuery()
   //const username = query.get('username')
@@ -53,7 +54,7 @@ export default function Posts() {
       setPosts(posts => {
         return posts.filter(post => post.id !== id)
       })
-      setDisplayError(t(`Post title ${id} is deleted successfully.`))
+      setDisplayMessage(t(`Post title ${id} is deleted successfully.`))
 
     } catch (displayError) {
       setDisplayError(null)
@@ -102,7 +103,7 @@ export default function Posts() {
             </Button>
             <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
               <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
-                <ErrorDisplay displayError={displayError} />
+                <DisplayMessage displayMessage={displayMessage} />
               </Alert>
             </Snackbar>
           </Box></>
